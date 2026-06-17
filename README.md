@@ -1,2 +1,2 @@
 # network-project-portfolio-ajtadeo
-Portfolio of hands-on network engineering projects showcasing enterprise network design, implementation, troubleshooting, configuration and documentation.
+Portfolio of my hands-on network engineering projects using Packet Tracer, showcasing enterprise network design, implementation, troubleshooting, configuration and documentation.
