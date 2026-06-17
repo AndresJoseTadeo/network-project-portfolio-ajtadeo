@@ -1,20 +1,19 @@
 Portfolio of my hands-on network engineering projects using Packet Tracer, showcasing enterprise network design, implementation, troubleshooting, configuration and documentation.
 
 
-Project:
-1. Dual-Site Enterprise Network
+**Project:**
+Dual-Site Enterprise Network
 
 **Objectives**
 - Hierarchical Enterprise Design
 - Secure Site-to-Site Connectivity
 - Dynamic Routing
 - Public and Private Services
-- Redundancy and High Availability
+- Redundancy and Availability
 - Layered Security Architecture
 
 
 **Implemented Features**
-- Multi-site enterprise architecture
 - VLAN Segmentation
 - VLSM / IP Addressing
 - Redundancy 
