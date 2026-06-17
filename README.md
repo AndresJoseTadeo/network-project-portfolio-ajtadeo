@@ -16,7 +16,7 @@ Dual-Site Enterprise Network
 **Implemented Features**
 - VLAN Segmentation
 - VLSM / IP Addressing
-- Redundancy 
+- Redundancy via Etherchannels
 - GRE over IPsec VPN connectivity
 - OSPF and Static routing
 - NAT and PAT services
