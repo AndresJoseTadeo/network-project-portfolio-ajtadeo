@@ -1,4 +1,4 @@
-Portfolio of my hands-on network engineering projects using Packet Tracer, showcasing enterprise network design, implementation, troubleshooting, configuration and documentation.
+Portfolio of my hands-on network configuration projects using Packet Tracer, showcasing enterprise network design, implementation, troubleshooting, configuration and documentation.
 
 
 **Project:**
