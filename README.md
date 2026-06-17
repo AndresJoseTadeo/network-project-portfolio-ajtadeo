@@ -1,4 +1,3 @@
-<img width="1572" height="575" alt="image" src="https://github.com/user-attachments/assets/e4586d45-c08f-4062-a8b9-ef4e779c19b4" /># network-project-portfolio-ajtadeo
 Portfolio of my hands-on network engineering projects using Packet Tracer, showcasing enterprise network design, implementation, troubleshooting, configuration and documentation.
 
 
