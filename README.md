@@ -2,7 +2,7 @@ Portfolio of my hands-on network engineering projects using Packet Tracer, showc
 
 
 **Project:**
-Dual-Site Enterprise Network
+[Dual-Site Enterprise Network](https://github.com/AndresJoseTadeo/network-project-portfolio-ajtadeo/tree/main/Dual-Site-Enterprise-Network)
 
 **Objectives**
 - Hierarchical Enterprise Design
