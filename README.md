@@ -3,6 +3,7 @@ Portfolio of my hands-on network engineering projects using Packet Tracer, showc
 
 Project:
 1. Dual-Site Enterprise Network
+
 **Objectives**
 - Hierarchical Enterprise Design
 - Secure Site-to-Site Connectivity
