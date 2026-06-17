@@ -9,7 +9,7 @@ Dual-Site Enterprise Network
 - Secure Site-to-Site Connectivity
 - Dynamic Routing
 - Public and Private Services
-- Redundancy and Availability
+- Redundancy and High Availability
 - Layered Security Architecture
 
 
