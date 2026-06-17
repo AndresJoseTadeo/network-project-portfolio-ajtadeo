@@ -1,0 +1,200 @@
+!
+version 15.1
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+no service password-encryption
+!
+hostname EDGE_HQ2
+!
+!
+!
+enable secret 5 $1$mERr$tKAvQPi4nwql8vUTe8ogt/
+!
+!
+!
+!
+!
+!
+ip cef
+no ipv6 cef
+!
+!
+!
+username admin secret 5 $1$mERr$tKAvQPi4nwql8vUTe8ogt/
+!
+!
+license udi pid CISCO2911/K9 sn FTX1524V0V9-
+license boot module c2900 technology-package securityk9
+!
+!
+!
+crypto isakmp policy 10
+ encr aes 128
+ authentication pre-share
+ group 5
+!
+crypto isakmp policy 20
+ encr aes 128
+ authentication pre-share
+ group 5
+!
+crypto isakmp key AJ123 address 106.1.1.1
+crypto isakmp key AJ123 address 107.1.1.1
+!
+!
+!
+crypto ipsec transform-set T1-SET esp-aes esp-sha-hmac
+crypto ipsec transform-set T2-SET esp-aes esp-sha-hmac
+!
+crypto map T1-MAP 10 ipsec-isakmp 
+ description # TUNNEL 1 #
+ set peer 106.1.1.1
+ set transform-set T1-SET 
+ match address 110
+!
+!
+crypto map T2-MAP 10 ipsec-isakmp 
+ description # TUNNEL 2 #
+ set peer 107.1.1.1
+ set transform-set T2-SET 
+ match address 120
+!
+!
+!
+!
+!
+!
+ip ssh version 2
+ip domain-name hq.local
+!
+!
+spanning-tree mode pvst
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 10.255.255.22 255.255.255.255
+!
+interface Tunnel1
+ ip address 10.0.1.1 255.255.255.252
+ mtu 1476
+ tunnel source GigabitEthernet0/1/0
+ tunnel destination 106.1.1.1
+!
+!
+interface Tunnel2
+ ip address 10.0.2.1 255.255.255.252
+ mtu 1476
+ tunnel source GigabitEthernet0/2/0
+ tunnel destination 107.1.1.1
+!
+!
+interface Port-channel1
+ description to ASA_HQ2
+ ip address 10.20.20.6 255.255.255.252
+ ip ospf cost 65535
+!
+interface GigabitEthernet0/0
+ description etherchannel link
+ no ip address
+ channel-group 1
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/1
+ description etherchannel link
+ no ip address
+ channel-group 1
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/2
+ no ip address
+ duplex auto
+ speed auto
+ shutdown
+!
+interface GigabitEthernet0/0/0
+ no ip address
+ shutdown
+!
+interface GigabitEthernet0/1/0
+ ip address 102.1.1.1 255.255.255.252
+ ip access-group TUNNEL_HQ2_IN in
+ crypto map T1-MAP
+!
+interface GigabitEthernet0/2/0
+ ip address 103.1.1.1 255.255.255.252
+ ip access-group TUNNEL_HQ2_IN in
+ crypto map T2-MAP
+!
+interface GigabitEthernet0/3/0
+ no ip address
+ shutdown
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+router ospf 1
+ router-id 10.255.255.22
+ log-adjacency-changes
+ passive-interface Loopback0
+ network 10.255.255.22 0.0.0.0 area 0
+ network 10.20.20.6 0.0.0.0 area 0
+ network 10.0.1.1 0.0.0.0 area 0
+ network 10.0.2.1 0.0.0.0 area 0
+!
+ip classless
+ip route 106.1.1.0 255.255.255.252 102.1.1.2 
+ip route 107.1.1.0 255.255.255.252 103.1.1.2 
+!
+ip flow-export version 9
+!
+!
+access-list 110 permit gre host 102.1.1.1 host 106.1.1.1
+access-list 120 permit gre host 103.1.1.1 host 107.1.1.1
+ip access-list extended TUNNEL_HQ2_IN
+ permit icmp any any echo-reply
+ permit tcp any any established
+ permit udp host 106.1.1.1 host 102.1.1.1 eq isakmp
+ permit udp host 107.1.1.1 host 103.1.1.1 eq isakmp
+ permit udp host 106.1.1.1 host 102.1.1.1 eq non500-isakmp
+ permit udp host 107.1.1.1 host 103.1.1.1 eq non500-isakmp
+ permit esp host 106.1.1.1 host 102.1.1.1
+ permit esp host 107.1.1.1 host 103.1.1.1
+ permit gre host 106.1.1.1 host 102.1.1.1
+ permit gre host 107.1.1.1 host 103.1.1.1
+ deny ip any any
+ip access-list standard SSH-MGMT
+ permit host 192.168.99.10
+!
+!
+!
+!
+!
+line con 0
+ exec-timeout 30 0
+ logging synchronous
+ login local
+!
+line aux 0
+!
+line vty 0 4
+ access-class SSH-MGMT in
+ logging synchronous
+ login local
+ transport input ssh
+line vty 5 15
+ access-class SSH-MGMT in
+ logging synchronous
+ login local
+ transport input ssh
+!
+!
+!
+end
+
