@@ -4,7 +4,7 @@
 My goal was to see whether I could build a secure, professional-grade network from scratch that connects two separate sites while implementing routing, VPNs, security policies, and essential network services.
 </i>
 <br></br>
-<br></br>
+<hr>
 **Implemented Features**
 - VLAN Segmentation
 - VLSM / IP Addressing
