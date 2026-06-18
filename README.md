@@ -17,17 +17,3 @@ Download: https://www.netacad.com/articles/news/download-cisco-packet-tracer
 - Layered Security Architecture
 
 
-**Implemented Features**
-- VLAN Segmentation
-- VLSM / IP Addressing
-- Redundancy via Etherchannels
-- GRE over IPsec VPN connectivity
-- OSPF and Static routing
-- NAT and PAT services
-- HTTPS, DNS, DHCP, FTP services
-- ASA firewall protection
-- ACL-based traffic control
-- Layer 2 security (Port Security, DHCP Snooping, DAI)
-- Management VLAN isolation
-- Secure SSH administration
-
