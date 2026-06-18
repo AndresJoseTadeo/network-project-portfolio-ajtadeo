@@ -1,5 +1,5 @@
 <h2>Portfolio of my hands-on network configuration projects using Packet Tracer, showcasing enterprise network design, implementation, troubleshooting, configuration and documentation.</h2>
-<hr>
+
 <br> Packet Tracer Version Used: v9.0.0.0810 </br>
 Download: https://www.netacad.com/articles/news/download-cisco-packet-tracer
 
