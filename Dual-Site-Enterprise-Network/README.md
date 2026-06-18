@@ -3,7 +3,8 @@
 <i>Hi, I am Andres. I built this project to challenge myself and prepare for designing and configuring networks similar to those used in real-world enterprise environments.
 My goal was to see whether I could build a secure, professional-grade network from scratch that connects two separate sites while implementing routing, VPNs, security policies, and essential network services.
 </i>
-<br>
+
+
 **Implemented Features**
 - VLAN Segmentation
 - VLSM / IP Addressing
