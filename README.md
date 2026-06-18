@@ -5,8 +5,8 @@ Download: https://www.netacad.com/articles/news/download-cisco-packet-tracer
 
 <hr>
 
-<h3>**Project:**
-[Dual-Site Enterprise Network](https://github.com/AndresJoseTadeo/network-project-portfolio-ajtadeo/tree/main/Dual-Site-Enterprise-Network) </h3>
+**Project:**
+[Dual-Site Enterprise Network](https://github.com/AndresJoseTadeo/network-project-portfolio-ajtadeo/tree/main/Dual-Site-Enterprise-Network)
 
 **Objectives**
 - Hierarchical Enterprise Design
