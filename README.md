@@ -17,3 +17,12 @@ Download: https://www.netacad.com/articles/news/download-cisco-packet-tracer
 - Layered Security Architecture
 
 
+[AAA Authentication]https://github.com/AndresJoseTadeo/network-project-portfolio-ajtadeo/tree/main/AAA%20Authentication
+
+**Objectives**
+- Implement TACACS+ for administrator authentication.
+- Configure RADIUS for wireless administrator authentication. 
+- Deploy a Wireless LAN Controller (WLC) for centralized wireless management. 
+- Segment the network using VLANs. 
+- Provide Internet connectivity.
+
