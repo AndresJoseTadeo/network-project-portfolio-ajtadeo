@@ -5,7 +5,7 @@ Download: https://www.netacad.com/articles/news/download-cisco-packet-tracer
 
 <hr>
 
-**Project:** <br>
+**Project:**
 [Dual-Site Enterprise Network](https://github.com/AndresJoseTadeo/network-project-portfolio-ajtadeo/tree/main/Dual-Site-Enterprise-Network)
 
 **Objectives**
@@ -16,7 +16,7 @@ Download: https://www.netacad.com/articles/news/download-cisco-packet-tracer
 - Redundancy and High Availability
 - Layered Security Architecture
 
-
+**Project:**
 [AAA Authentication](https://github.com/AndresJoseTadeo/network-project-portfolio-ajtadeo/tree/main/AAA%20Authentication)
 
 **Objectives**
