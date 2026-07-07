@@ -5,7 +5,7 @@ Download: https://www.netacad.com/articles/news/download-cisco-packet-tracer
 
 <hr>
 
-**Project:**
+**Project:** <br>
 [Dual-Site Enterprise Network](https://github.com/AndresJoseTadeo/network-project-portfolio-ajtadeo/tree/main/Dual-Site-Enterprise-Network)
 
 **Objectives**
@@ -17,7 +17,7 @@ Download: https://www.netacad.com/articles/news/download-cisco-packet-tracer
 - Layered Security Architecture
 
 
-[AAA Authentication]https://github.com/AndresJoseTadeo/network-project-portfolio-ajtadeo/tree/main/AAA%20Authentication
+[AAA Authentication](https://github.com/AndresJoseTadeo/network-project-portfolio-ajtadeo/tree/main/AAA%20Authentication)
 
 **Objectives**
 - Implement TACACS+ for administrator authentication.
