@@ -16,7 +16,7 @@ Download: https://www.netacad.com/articles/news/download-cisco-packet-tracer
 - Redundancy and High Availability
 - Layered Security Architecture
 
-
+&nbsp;
 
 **Project:**
 [AAA Authentication](https://github.com/AndresJoseTadeo/network-project-portfolio-ajtadeo/tree/main/AAA%20Authentication)
