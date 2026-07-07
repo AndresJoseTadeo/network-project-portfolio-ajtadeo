@@ -1,0 +1,221 @@
+!
+version 16.3.2
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+no service password-encryption
+!
+hostname CORE_SW
+!
+!
+no profinet
+enable secret 5 $1$mERr$rJTn..M0RsQcLAmK6f7gA0
+!
+!
+!
+!
+!
+aaa new-model
+!
+aaa authentication login default group tacacs+ local enable 
+!
+!
+!
+!
+!
+!
+!
+no ip cef
+ip routing
+!
+no ipv6 cef
+!
+!
+!
+username superadmin secret 5 $1$mERr$rJTn..M0RsQcLAmK6f7gA0
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+ip ssh version 2
+ip domain-name company.local
+!
+!
+spanning-tree mode rapid-pvst
+spanning-tree vlan 10,20,30,50,60,99,150,160 priority 4096
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet1/0/1
+ switchport trunk native vlan 1001
+ switchport trunk allowed vlan 99
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/2
+ switchport trunk native vlan 1001
+ switchport trunk allowed vlan 10,50,99,150
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/3
+ switchport trunk native vlan 1001
+ switchport trunk allowed vlan 20,60,99,160
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/4
+ switchport trunk native vlan 1001
+ switchport trunk allowed vlan 30,99
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/5
+!
+interface GigabitEthernet1/0/6
+!
+interface GigabitEthernet1/0/7
+!
+interface GigabitEthernet1/0/8
+!
+interface GigabitEthernet1/0/9
+!
+interface GigabitEthernet1/0/10
+!
+interface GigabitEthernet1/0/11
+!
+interface GigabitEthernet1/0/12
+!
+interface GigabitEthernet1/0/13
+!
+interface GigabitEthernet1/0/14
+!
+interface GigabitEthernet1/0/15
+!
+interface GigabitEthernet1/0/16
+!
+interface GigabitEthernet1/0/17
+!
+interface GigabitEthernet1/0/18
+!
+interface GigabitEthernet1/0/19
+!
+interface GigabitEthernet1/0/20
+!
+interface GigabitEthernet1/0/21
+!
+interface GigabitEthernet1/0/22
+!
+interface GigabitEthernet1/0/23
+ switchport trunk native vlan 99
+ switchport trunk allowed vlan 50,60,99,150,160
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/24
+ no switchport
+ ip address 10.0.0.1 255.255.255.252
+ ip ospf 1 area 0
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet1/1/1
+!
+interface GigabitEthernet1/1/2
+!
+interface GigabitEthernet1/1/3
+!
+interface GigabitEthernet1/1/4
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+interface Vlan10
+ mac-address 0090.0c6b.2a01
+ ip address 192.168.10.1 255.255.255.0
+ ip helper-address 192.168.30.2
+ ip ospf 1 area 0
+!
+interface Vlan20
+ mac-address 0090.0c6b.2a02
+ ip address 192.168.20.1 255.255.255.0
+ ip helper-address 192.168.30.2
+!
+interface Vlan30
+ mac-address 0090.0c6b.2a03
+ ip address 192.168.30.1 255.255.255.0
+ ip ospf 1 area 0
+!
+interface Vlan50
+ mac-address 0090.0c6b.2a04
+ ip address 192.168.50.1 255.255.255.0
+ ip helper-address 192.168.30.2
+ ip ospf 1 area 0
+!
+interface Vlan60
+ mac-address 0090.0c6b.2a05
+ ip address 192.168.60.1 255.255.255.0
+ ip helper-address 192.168.30.2
+ ip ospf 1 area 0
+!
+interface Vlan99
+ mac-address 0090.0c6b.2a06
+ ip address 192.168.99.1 255.255.255.0
+ ip helper-address 192.168.30.2
+ ip ospf 1 area 0
+!
+interface Vlan150
+ mac-address 0090.0c6b.2a07
+ ip address 192.168.150.1 255.255.255.0
+ ip helper-address 192.168.30.2
+ ip ospf 1 area 0
+!
+interface Vlan160
+ mac-address 0090.0c6b.2a08
+ ip address 192.168.160.1 255.255.255.0
+ ip helper-address 192.168.30.2
+ ip ospf 1 area 0
+!
+router ospf 1
+ log-adjacency-changes
+!
+ip classless
+!
+ip flow-export version 9
+!
+!
+ip access-list standard SSH_MGMT
+ permit 192.168.99.0 0.0.0.255
+ permit 192.168.50.0 0.0.0.255
+ permit 192.168.60.0 0.0.0.255
+!
+!
+tacacs-server host 192.168.30.3 key aj123
+!
+!
+!
+line con 0
+ logging synchronous
+!
+line aux 0
+!
+line vty 0 4
+ access-class SSH_MGMT in
+ logging synchronous
+ login authentication default
+ transport input ssh
+line vty 5 15
+ access-class SSH_MGMT in
+ logging synchronous
+ login authentication default
+ transport input ssh
+!
+!
+!
+!
+end
+
