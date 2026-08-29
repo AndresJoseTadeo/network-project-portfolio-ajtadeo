@@ -49,11 +49,13 @@ The two ISP connections provide redundancy so that Internet connectivity can con
 
 ## Layer 2 Design
 VLAN 10 – Switch1 <br> <br>
-<img width="478" height="309" alt="image" src="https://github.com/user-attachments/assets/bd55e75b-50c1-42de-9b46-19c76ddf3caa" /> <br>
+<img width="478" height="309" alt="image" src="https://github.com/user-attachments/assets/bd55e75b-50c1-42de-9b46-19c76ddf3caa" /> 
+<img width="724" height="495" alt="image" src="https://github.com/user-attachments/assets/5863bb81-d314-43ba-8112-b50182fcd277" />
 
 <br>
 
-**Switch1 provides Layer 2 connectivity for the VLAN 10 clients.**
+**Switch1 provides Layer 2 connectivity for the VLAN 10 clients.** 
+<br>
 Access ports: 
 - e0/1 → PC1
 - e0/2 → PC2
@@ -64,13 +66,15 @@ enable
 configure terminal
 	vlan 10
 exit
-
 spanning-tree mode rapid-pvst
+
+!Both ports are configured as access ports in VLAN 10.
 interface range e0/1 , e0/2
 	switchport mode access
 	switchport access vlan 10
 	spanning-tree portfast edge
 
+!The uplink toward MLSW is configured as an 802.1Q trunk:
 interface e0/0
 	switchport trunk encapsulation dot1q
 	switchport mode trunk 
@@ -81,6 +85,7 @@ exit
 <br>
 
 **Switch2 provides Layer 2 connectivity for the VLAN 20 clients.**
+<br>
 Access ports: 
 - e0/1 → PC3
 - e0/2 → PC4
@@ -92,13 +97,15 @@ enable
 configure terminal
 	vlan 20
 exit
-
 spanning-tree mode rapid-pvst
+
+!Both ports are configured as access ports in VLAN 20.
 interface range e0/1 , e0/2
 	switchport mode access
 	switchport access vlan 20
 	spanning-tree portfast edge
 
+!The uplink toward MLSW is configured as an 802.1Q trunk:
 interface e0/0
 	switchport trunk encapsulation dot1q
 	switchport mode trunk 
@@ -115,6 +122,59 @@ exit
 - DHCP relay 
 - VLAN routing
 
+```text
+!MLSW CONFIG:
+enable
+configure terminal
+spanning-tree mode rapid-pvst
+spanning-tree vlan 10,20 priority 4096
+ip routing
+vlan 10
+vlan 20
+exit
+
+!Links to L2 switches
+interface e0/1
+	no shutdown
+	switchport trunk encapsulation dot1q 
+	switchport mode trunk 
+	switchport trunk allowed vlan 10
+interface e0/2
+	no shutdown
+	switchport trunk encapsulation dot1q 
+	switchport mode trunk 
+	switchport trunk allowed vlan 20
+exit
+
+interface e0/0
+	no switchport 
+	no shutdown
+	ip address 10.10.10.1 255.255.255.252
+	ip ospf 1 area 0 
+	ip ospf network point-to-point
+interface loopback 0
+	ip address 10.255.255.1 255.255.255.255
+	ip ospf 1 area 0
+
+!SVIs as gateways for VLANs
+interface vlan 10
+	ip address 192.168.10.1 255.255.255.0
+	ip ospf 1 area 0
+	no shutdown
+interface vlan 20
+	ip address 192.168.20.1 255.255.255.0
+	ip ospf 1 area 0
+	no shutdown
+exit
+
+!OSPF 
+router ospf 1
+	router-id 10.255.255.1 
+	passive-interface vlan 10
+	passive-interface vlan 20
+	passive-interface loopback 0
+exit
+```
 
 
 
