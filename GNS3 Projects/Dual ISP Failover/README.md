@@ -1,4 +1,4 @@
-## Dual ISP Failover & Load Distribution Network (ON PROGRESS)
+## Dual ISP Failover & Load Distribution Network (IN PROGRESS)
 
 ## Project Overview
 This project implements a small enterprise network with:
