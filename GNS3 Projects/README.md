@@ -1,7 +1,7 @@
 Dual ISP Failover & Load Distribution Network
 
 
-## 🌐 IP Addressing Table
+## IP Addressing Table
 
 | Device | Interface | IP Address | Subnet Mask | Purpose |
 |---|---|---|---|---|
