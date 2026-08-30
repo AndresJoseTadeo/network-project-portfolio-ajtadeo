@@ -13,7 +13,7 @@ This project implements a small enterprise network with:
   -	Automatic ISP failover 
   -	VLAN-based Internet traffic distribution
     
-The design uses MLSW as the internal Layer 3 switch and R1 as the Internet edge router.
+I designed the network to use MLSW as the internal Layer 3 switch and R1 as the Internet edge router.
 The two ISP connections provide redundancy so that Internet connectivity can continue if either ISP becomes unavailable.
 
 ## Devices Used
@@ -28,7 +28,7 @@ The two ISP connections provide redundancy so that Internet connectivity can con
 ### Topology Components
 
 | Device | Role |
-|---|---|
+|:---:|:---:|
 | Switch1 | Access switch for VLAN 10 |
 | Switch2 | Access switch for VLAN 20 |
 | MLSW | Multilayer switch / Layer 3 gateway |
@@ -68,28 +68,28 @@ The two ISP connections provide redundancy so that Internet connectivity can con
 ## MLSW-to-R1 Link
 
 | Device | Interface | IP Address |
-|---|---|---|
+|:---:|:---:|:---:|
 | MLSW | `E0/0` | `10.10.10.1/30` |
 | R1 | `F0/0` | `10.10.10.2/30` |
 
 ## ISP-A Link
 
 | Device | Interface | IP Address |
-|---|---|---|
+|:---:|:---:|:---:|
 | R1 | `G1/0` | `100.1.1.1/30` |
 | ISP-A | `G1/0` | `100.1.1.2/30` |
 
 ## ISP-B Link
 
 | Device | Interface | IP Address |
-|---|---|---|
+|:---:|:---:|:---:|
 | R1 | `G2/0` | `200.1.1.1/30` |
 | ISP-B | `G1/0` | `200.1.1.2/30` |
 
 ## Loopback Addresses
 
 | Device | Interface | IP Address | Purpose |
-|---|---|---|---|
+|:---:|:---:|:---:|:---:|
 | MLSW | Loopback0 | `10.255.255.1/32` | OSPF Router ID |
 | R1 | Loopback0 | `10.255.255.2/32` | OSPF Router ID |
 | ISP-A | Loopback0 | `10.255.255.10/32` | IP SLA target |
@@ -112,7 +112,7 @@ The intended ISP path for each VLAN is:
 <img width="1049" height="297" alt="image" src="https://github.com/user-attachments/assets/364e5461-6a7b-401d-a880-046f41f621be" /> <br>
 
 | Source Network | Primary Path | Backup Path |
-|---|---|---|
+|:---:|:---:|:---:|
 | `192.168.10.0/24` | ISP-A | ISP-B |
 | `192.168.20.0/24` | ISP-B | ISP-A |
 
@@ -144,7 +144,7 @@ The intended ISP path for each VLAN is:
 
 Switch1 provides Layer 2 connectivity for the VLAN 10 clients.
 
-PC1 and PC2 are assigned to VLAN 10. The uplink toward the MLSW operates as an 802.1Q trunk.
+The uplink toward the MLSW operates as an 802.1Q trunk.
 
 ```cisco
 enable
@@ -174,7 +174,7 @@ exit
 
 Switch2 provides Layer 2 connectivity for the VLAN 20 clients.
 
-PC3 and PC4 are assigned to VLAN 20. The uplink toward the MLSW operates as an 802.1Q trunk.
+The uplink toward the MLSW operates as an 802.1Q trunk.
 
 ```cisco
 enable
@@ -200,7 +200,7 @@ exit
 
 ---
 
-# Multilayer Switch (MLSW)
+## Multilayer Switch (MLSW)
 
 The MLSW performs:
 
@@ -212,7 +212,7 @@ The MLSW performs:
 - Trunk connectivity toward the access switches
 - Layer 3 connectivity toward R1
 
-## Complete MLSW Configuration
+## MLSW Configuration
 
 ```cisco
 enable
@@ -277,11 +277,12 @@ exit
 
 # DHCP Configuration
 
-R1 provides centralized DHCP services for both VLANs.
-
-The MLSW uses DHCP relay to forward client DHCP requests to R1.
+- R1 provides centralized DHCP services for both VLANs.
+- The MLSW uses DHCP relay to forward client DHCP requests to R1.
 
 ## MLSW DHCP Relay
+
+The DHCP requests are forwarded to R1's Loopback0 address `10.255.255.2`
 
 ```cisco
 interface vlan 10
@@ -290,15 +291,7 @@ interface vlan 10
 interface vlan 20
  ip helper-address 10.255.255.2
 ```
-
-The DHCP requests are forwarded to R1's Loopback0 address:
-
-```text
-10.255.255.2
-```
-
 ---
-
 # R1 Configuration
 
 R1 performs the following functions:
