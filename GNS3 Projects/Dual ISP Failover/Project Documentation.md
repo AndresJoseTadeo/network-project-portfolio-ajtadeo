@@ -25,6 +25,15 @@ The two ISP connections provide redundancy so that Internet connectivity can con
 ## Network Topology
 <img width="1264" height="579" alt="image" src="https://github.com/user-attachments/assets/7d5824e4-ab96-445f-bc34-21987f290166" />
 
+## Requirements:
+
+- VLAN 10 `192.168.10.0/24` should use ISP-A as its primary Internet path and ISP-B as its backup path.
+- VLAN 20 `192.168.20.0/24` should use ISP-B as its primary Internet path and ISP-A as its backup path.
+- Automatic ISP failover should occur when the respective primary ISP connection becomes unavailable.
+- R1 should provide DHCP services for both VLAN 10 and VLAN 20.
+- R1 should provide Internet connectivity to both VLANs through the two ISP uplinks.
+- OSPF should be used between the MLSW and R1 for internal route exchange over the `10.10.10.0/30` link.
+
 
 ## VLAN Addressing
 
@@ -48,11 +57,11 @@ The two ISP connections provide redundancy so that Internet connectivity can con
 
 
 ## Layer 2 Design
-VLAN 10 – Switch1 <br> <br>
-<img width="478" height="309" alt="image" src="https://github.com/user-attachments/assets/bd55e75b-50c1-42de-9b46-19c76ddf3caa" /> 
-<img width="724" height="495" alt="image" src="https://github.com/user-attachments/assets/5863bb81-d314-43ba-8112-b50182fcd277" />
 
-<br>
+**VLAN 10 – Switch1** 
+<br><br>
+<img width="1439" height="732" alt="image" src="https://github.com/user-attachments/assets/3936b37e-36a9-4d33-bb68-5b2e1d27a1f0" />
+<br> <br>
 
 **Switch1 provides Layer 2 connectivity for the VLAN 10 clients.** 
 <br>
@@ -78,10 +87,16 @@ interface e0/0
 	switchport trunk allowed vlan 10
 exit
 ```
+
 <br>
 
+**VLAN 20 – Switch2** 
+<br><br>
+<img width="1462" height="720" alt="image" src="https://github.com/user-attachments/assets/738103ea-5550-4da8-a9bf-5377ae6528ed" />
+<br><br>
 
 **Switch2 provides Layer 2 connectivity for the VLAN 20 clients.**
+<br>
 
 ```text
 !Switch2 CONFIG:
