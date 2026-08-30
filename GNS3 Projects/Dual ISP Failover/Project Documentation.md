@@ -56,9 +56,6 @@ VLAN 10 – Switch1 <br> <br>
 
 **Switch1 provides Layer 2 connectivity for the VLAN 10 clients.** 
 <br>
-Access ports: 
-- e0/1 → PC1
-- e0/2 → PC2
 
 ```text
 !Switch1 CONFIG:
@@ -81,15 +78,10 @@ interface e0/0
 	switchport trunk allowed vlan 10
 exit
 ```
-
 <br>
+
 
 **Switch2 provides Layer 2 connectivity for the VLAN 20 clients.**
-<br>
-Access ports: 
-- e0/1 → PC3
-- e0/2 → PC4
-
 
 ```text
 !Switch2 CONFIG:
