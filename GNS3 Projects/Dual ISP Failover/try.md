@@ -120,21 +120,27 @@ The intended ISP path for each VLAN is:
 
 # Technologies Used
 
+## Layer 2 – Switching
 - VLANs
 - 802.1Q Trunking
 - Rapid-PVST
+
+## Layer 3 – Routing & Switching
 - Layer 3 Switching
 - Inter-VLAN Routing
 - OSPF
+- Static Routing
+  
+## Network Services
 - DHCP
 - DHCP Relay
-- Static Routing
+
+## WAN / Failover
 - IP SLA
 - Object Tracking
 - Route Maps
 - NAT/PAT
 - Dual ISP Connectivity
-- Automatic ISP Failover
 
 ---
 
