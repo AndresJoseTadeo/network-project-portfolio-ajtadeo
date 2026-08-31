@@ -28,7 +28,8 @@ The two ISP connections provide redundancy so that Internet connectivity can con
 
 ## Network Topology
 
-<img width="1791" height="783" alt="image" src="https://github.com/user-attachments/assets/137a959c-790c-44f1-978e-21091385cd0f" />
+<img width="1795" height="778" alt="image" src="https://github.com/user-attachments/assets/849cc659-ff80-4ea0-8337-f0d0da755466" />
+
 
 ### Topology Components
 
