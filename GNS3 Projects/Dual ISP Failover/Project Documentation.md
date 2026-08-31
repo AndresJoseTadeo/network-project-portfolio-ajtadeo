@@ -28,7 +28,7 @@ The two ISP connections provide redundancy so that Internet connectivity can con
 
 ## Network Topology
 
-<img width="1594" height="738" alt="image" src="https://github.com/user-attachments/assets/92377467-0692-44a4-ba45-3aa35f896614" />
+<img width="1920" height="904" alt="image" src="https://github.com/user-attachments/assets/0aecade8-cbf3-4606-9f4e-13c02ba3cad3" />
 
 
 ### Topology Components
@@ -111,12 +111,13 @@ The intended ISP path for each VLAN is:
 
 ### VLAN 10
 
-<img width="1337" height="370" alt="image" src="https://github.com/user-attachments/assets/ca8fce7d-f5ec-47b7-a009-e0f27d5cb14b" />
+<img width="1680" height="470" alt="image" src="https://github.com/user-attachments/assets/fad86960-e132-45d4-b6ab-dd7a5a55bac1" />
+
 
 
 ### VLAN 20
 
-<img width="1340" height="371" alt="image" src="https://github.com/user-attachments/assets/60706e1b-e394-4866-bac1-a5218d99adc3" /> <br>
+<img width="1680" height="470" alt="image" src="https://github.com/user-attachments/assets/93da94c0-51f3-48c1-9f3d-89359960bdc4" /> <br>
 
 | Source Network | Primary Path | Backup Path |
 |:---:|:---:|:---:|
@@ -153,7 +154,11 @@ The intended ISP path for each VLAN is:
 
 # Device Configuration
 
-## Switch1
+## Local Network
+
+<img width="1089" height="754" alt="image" src="https://github.com/user-attachments/assets/168a7e97-811c-4ab1-a9e0-52d25f17c106" />
+
+## 1. Switch1
 
 **Switch1 provides Layer 2 connectivity for the VLAN 10 clients.**
 
@@ -189,7 +194,7 @@ exit
 ```
 ---
 
-## Switch2
+## 2. Switch2
 
 **Switch2 provides Layer 2 connectivity for the VLAN 20 clients.**
 
@@ -225,7 +230,7 @@ exit
 ```
 ---
 
-## Multilayer Switch (MLSW)
+## 3. Multilayer Switch (MLSW)
 
 **The MLSW performs:**
 - VLAN creation
@@ -320,7 +325,7 @@ exit
 
 ---
 
-# R1 Configuration
+# 4. R1 (Router)
 
 **R1 performs:**
 - Centralized DHCP services for both VLANs.
@@ -357,7 +362,7 @@ c) Configuring OSPF
 router ospf 1
  router-id 10.255.255.2
  passive-interface loopback 0
- default-information originate
+ default-information originate always
 ```
 
 d) Configuring DHCP 
@@ -387,6 +392,8 @@ exit
 ---
 
 # WAN Configuration
+
+<img width="1099" height="708" alt="image" src="https://github.com/user-attachments/assets/4496b35b-b1f3-496d-ab99-b003b934e84a" />
 
 R1 has two independent WAN connections.
 
