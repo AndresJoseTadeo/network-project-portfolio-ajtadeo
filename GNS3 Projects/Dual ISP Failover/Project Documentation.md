@@ -28,7 +28,7 @@ The two ISP connections provide redundancy so that Internet connectivity can con
 
 ## Network Topology
 
-<img width="1795" height="778" alt="image" src="https://github.com/user-attachments/assets/849cc659-ff80-4ea0-8337-f0d0da755466" />
+<img width="1594" height="738" alt="image" src="https://github.com/user-attachments/assets/92377467-0692-44a4-ba45-3aa35f896614" />
 
 
 ### Topology Components
@@ -111,11 +111,12 @@ The intended ISP path for each VLAN is:
 
 ### VLAN 10
 
-<img width="1048" height="296" alt="image" src="https://github.com/user-attachments/assets/dd38e2e6-153a-45c1-82f2-e34f1b1c2b8f" />
+<img width="1337" height="370" alt="image" src="https://github.com/user-attachments/assets/ca8fce7d-f5ec-47b7-a009-e0f27d5cb14b" />
+
 
 ### VLAN 20
 
-<img width="1049" height="297" alt="image" src="https://github.com/user-attachments/assets/364e5461-6a7b-401d-a880-046f41f621be" /> <br>
+<img width="1340" height="371" alt="image" src="https://github.com/user-attachments/assets/60706e1b-e394-4866-bac1-a5218d99adc3" /> <br>
 
 | Source Network | Primary Path | Backup Path |
 |:---:|:---:|:---:|
