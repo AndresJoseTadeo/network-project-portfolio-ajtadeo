@@ -1,6 +1,6 @@
-## Dual ISP Failover & Load Distribution Network (IN PROGRESS)
 
 ## Project Overview
+
 This project implements a small enterprise network with:
   -	Two user VLANs 
   -	Layer 3 inter-VLAN routing 
@@ -12,9 +12,11 @@ This project implements a small enterprise network with:
   -	Tracked default routes 
   -	Automatic ISP failover 
   -	VLAN-based Internet traffic distribution
-
-The design uses MLSW as the internal Layer 3 switch and R1 as the Internet edge router.
+    
+I designed the network to use MLSW as the internal Layer 3 switch and R1 as the Internet edge router.
 The two ISP connections provide redundancy so that Internet connectivity can continue if either ISP becomes unavailable.
+
+---
 
 ## Devices Used
 | Device | image |
@@ -22,193 +24,816 @@ The two ISP connections provide redundancy so that Internet connectivity can con
 | Switches L2/L3 | i86bi_linux_l2-adventerprisek9-ms.SSA.high_iron_20190423 |
 | Router | c7200-advipservicesk9-mz.152-4.S5 |
 
+---
+
 ## Network Topology
-<img width="1264" height="579" alt="image" src="https://github.com/user-attachments/assets/7d5824e4-ab96-445f-bc34-21987f290166" />
+
+<img width="1791" height="783" alt="image" src="https://github.com/user-attachments/assets/137a959c-790c-44f1-978e-21091385cd0f" />
+
+### Topology Components
+
+| Device | Role |
+|:---:|:---:|
+| Switch1 | Access switch for VLAN 10 |
+| Switch2 | Access switch for VLAN 20 |
+| MLSW | Multilayer switch / Layer 3 gateway |
+| R1 | Edge router, DHCP server, NAT/PAT, ISP failover |
+| ISP-A | Primary ISP for VLAN 10 |
+| ISP-B | Primary ISP for VLAN 20 |
+| PC1 / PC2 | VLAN 10 clients |
+| PC3 / PC4 | VLAN 20 clients |
+
+---
 
 ## Requirements:
 
 - VLAN 10 `192.168.10.0/24` should use ISP-A as its primary Internet path and ISP-B as its backup path.
 - VLAN 20 `192.168.20.0/24` should use ISP-B as its primary Internet path and ISP-A as its backup path.
-- Automatic ISP failover should occur when the respective primary ISP connection becomes unavailable.
+- If the primary ISP becomes unavailable, IP SLA should detect the failure, and object tracking must allow traffic to switch to the backup ISP.
 - R1 should provide DHCP services for both VLAN 10 and VLAN 20.
 - R1 should provide Internet connectivity to both VLANs through the two ISP uplinks.
 - OSPF should be used between the MLSW and R1 for internal route exchange over the `10.10.10.0/30` link.
 
+| VLAN | Network | Primary ISP | Backup ISP |
+|:---:|:---:|:---:|:---:|
+| VLAN 10 | `192.168.10.0/24` | ISP-A | ISP-B |
+| VLAN 20 | `192.168.20.0/24` | ISP-B | ISP-A |
+
+---
+
+# IP Addressing
 
 ## VLAN Addressing
 
-|VLAN	| Network	| Gateway	| DHCP Server |
+| VLAN | Network | Default Gateway | DHCP Server |
 |:---:|:---:|:---:|:---:|
-|VLAN 10	| `192.168.10.0/24`	| `192.168.10.1` | R1 |
-|VLAN 20	| `192.168.20.0/24`	| `192.168.20.1` | R1 |
+| VLAN 10 | `192.168.10.0/24` | `192.168.10.1` | R1 |
+| VLAN 20 | `192.168.20.0/24` | `192.168.20.1` | R1 |
 
+## MLSW-to-R1 Link
 
-## IP Addressing Table
+| Device | Interface | IP Address |
+|:---:|:---:|:---:|
+| MLSW | `E0/0` | `10.10.10.1/30` |
+| R1 | `F0/0` | `10.10.10.2/30` |
 
-| Device | Interface | IP Address | Subnet Mask | Purpose |
-|:---:|:---:|:---:|:---:|:---:|
-| **MLSW** | E0/0 | `10.10.10.1` | `255.255.255.252` | OSPF link to R1 |
-| **MLSW** | Lo0 | `10.255.255.1` | `255.255.255.255` | OSPF Router ID |
-| **MLSW** | VLAN 10 | `192.168.10.1` | `255.255.255.0` | VLAN 10 Gateway |
-| **MLSW** | VLAN 20 | `192.168.20.1` | `255.255.255.0` | VLAN 20 Gateway |
-| **R1** | F0/0 | `10.10.10.2` | `255.255.255.252` | OSPF link to MLSW |
-| **R1** | G1/0 | `100.1.1.1` | `255.255.255.252` | ISP-A WAN |
-| **R1** | G2/0 | `200.1.1.1` | `255.255.255.252` | ISP-B WAN |
+## ISP-A Link
 
+| Device | Interface | IP Address |
+|:---:|:---:|:---:|
+| R1 | `G1/0` | `100.1.1.1/30` |
+| ISP-A | `G1/0` | `100.1.1.2/30` |
 
-## Layer 2 Design
+## ISP-B Link
 
-**VLAN 10 – Switch1** 
-<br><br>
-<img width="1439" height="732" alt="image" src="https://github.com/user-attachments/assets/3936b37e-36a9-4d33-bb68-5b2e1d27a1f0" />
-<br> <br>
+| Device | Interface | IP Address |
+|:---:|:---:|:---:|
+| R1 | `G2/0` | `200.1.1.1/30` |
+| ISP-B | `G1/0` | `200.1.1.2/30` |
 
-**Switch1 provides Layer 2 connectivity for the VLAN 10 clients.** 
-<br>
+## Loopback Addresses
 
-```text
-!Switch1 CONFIG:
-enable 
-configure terminal
-	vlan 10
-exit
-spanning-tree mode rapid-pvst
+| Device | Interface | IP Address | Purpose |
+|:---:|:---:|:---:|:---:|
+| MLSW | Loopback0 | `10.255.255.1/32` | OSPF Router ID |
+| R1 | Loopback0 | `10.255.255.2/32` | OSPF Router ID |
+| ISP-A | Loopback0 | `10.255.255.10/32` | IP SLA target |
+| ISP-B | Loopback0 | `10.255.255.20/32` | IP SLA target |
+| ISP-A | Loopback10 | `8.8.8.8/32` | Simulated Internet |
+| ISP-B | Loopback10 | `8.8.8.8/32` | Simulated Internet |
 
-!Both ports are configured as access ports in VLAN 10.
-interface range e0/1 , e0/2
-	switchport mode access
-	switchport access vlan 10
-	spanning-tree portfast edge
+---
 
-!The uplink toward MLSW is configured as an 802.1Q trunk:
-interface e0/0
-	switchport trunk encapsulation dot1q
-	switchport mode trunk 
-	switchport trunk allowed vlan 10
-exit
-```
+# Traffic Failover Design
 
-<br>
+The intended ISP path for each VLAN is:
 
-**VLAN 20 – Switch2** 
-<br><br>
-<img width="1462" height="720" alt="image" src="https://github.com/user-attachments/assets/738103ea-5550-4da8-a9bf-5377ae6528ed" />
-<br><br>
+### VLAN 10
 
-**Switch2 provides Layer 2 connectivity for the VLAN 20 clients.**
-<br>
+<img width="1048" height="296" alt="image" src="https://github.com/user-attachments/assets/dd38e2e6-153a-45c1-82f2-e34f1b1c2b8f" />
 
-```text
-!Switch2 CONFIG:
-enable 
-configure terminal
-	vlan 20
-exit
-spanning-tree mode rapid-pvst
+### VLAN 20
 
-!Both ports are configured as access ports in VLAN 20.
-interface range e0/1 , e0/2
-	switchport mode access
-	switchport access vlan 20
-	spanning-tree portfast edge
+<img width="1049" height="297" alt="image" src="https://github.com/user-attachments/assets/364e5461-6a7b-401d-a880-046f41f621be" /> <br>
 
-!The uplink toward MLSW is configured as an 802.1Q trunk:
-interface e0/0
-	switchport trunk encapsulation dot1q
-	switchport mode trunk 
-	switchport trunk allowed vlan 20
-exit
-```
-<br>
+| Source Network | Primary Path | Backup Path |
+|:---:|:---:|:---:|
+| `192.168.10.0/24` | ISP-A | ISP-B |
+| `192.168.20.0/24` | ISP-B | ISP-A |
 
-**Multi-Layer Switch**
-- MLSW performs the Layer 3 functions for the internal network.
-- Inter-VLAN routing 
-- Default gateways 
-- OSPF adjacency with R1 
-- DHCP relay 
-- VLAN routing
+---
 
-```text
-!MLSW CONFIG:
+# Technologies Used
+
+## Layer 2 – Switching
+- VLANs
+- 802.1Q Trunking
+- Rapid-PVST
+
+## Layer 3 – Routing & Switching
+- Layer 3 Switching
+- Inter-VLAN Routing
+- OSPF
+- Static Routing
+  
+## Network Services
+- DHCP
+- DHCP Relay
+
+## WAN / Failover
+- IP SLA
+- Object Tracking
+- Route Maps
+- NAT/PAT
+- Dual ISP Connectivity
+
+---
+
+# Device Configuration
+
+## Switch1
+
+**Switch1 provides Layer 2 connectivity for the VLAN 10 clients.**
+
+a) Creating VLAN 10 and enabling Rapid-PVST+
+
+```cisco
 enable
 configure terminal
-spanning-tree mode rapid-pvst
-spanning-tree vlan 10,20 priority 4096
-ip routing
+
 vlan 10
+exit
+
+spanning-tree mode rapid-pvst
+```
+
+b) Assigning interfaces as VLAN 10 access ports
+
+```cisco
+interface range e0/1 , e0/2
+ switchport mode access
+ switchport access vlan 10
+ spanning-tree portfast edge
+```
+
+c) Configuring the uplink toward the MLSW as an 802.1Q trunk
+```cisco
+interface e0/0
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk allowed vlan 10
+
+exit
+```
+---
+
+## Switch2
+
+**Switch2 provides Layer 2 connectivity for the VLAN 20 clients.**
+
+a) Creating VLAN 20 and enabling Rapid-PVST+
+
+```cisco
+enable
+configure terminal
+
 vlan 20
 exit
 
-!Links to L2 switches
-interface e0/1
-	no shutdown
-	switchport trunk encapsulation dot1q 
-	switchport mode trunk 
-	switchport trunk allowed vlan 10
-interface e0/2
-	no shutdown
-	switchport trunk encapsulation dot1q 
-	switchport mode trunk 
-	switchport trunk allowed vlan 20
-exit
+spanning-tree mode rapid-pvst
+```
 
+b) Assigning interfaces as VLAN 20 access ports
+
+```cisco
+interface range e0/1 , e0/2
+ switchport mode access
+ switchport access vlan 20
+ spanning-tree portfast edge
+```
+
+c) Configuring the uplink toward the MLSW as an 802.1Q trunk
+```cisco
 interface e0/0
-	no switchport 
-	no shutdown
-	ip address 10.10.10.1 255.255.255.252
-	ip ospf 1 area 0 
-	ip ospf network point-to-point
-interface loopback 0
-	ip address 10.255.255.1 255.255.255.255
-	ip ospf 1 area 0
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk allowed vlan 20
 
-!SVIs as gateways for VLANs
-interface vlan 10
-	ip address 192.168.10.1 255.255.255.0
-	ip ospf 1 area 0
-	no shutdown
-interface vlan 20
-	ip address 192.168.20.1 255.255.255.0
-	ip ospf 1 area 0
-	no shutdown
 exit
+```
+---
 
-!OSPF 
-router ospf 1
-	router-id 10.255.255.1 
-	passive-interface vlan 10
-	passive-interface vlan 20
-	passive-interface loopback 0
+## Multilayer Switch (MLSW)
+
+**The MLSW performs:**
+- VLAN creation
+- Inter-VLAN routing
+- Default gateway services
+- OSPF
+- DHCP relay
+- Trunk connectivity toward the access switches
+- Layer 3 connectivity toward R1
+
+a) Enabling Layer 3 routing and configuring Rapid-PVST+
+```cisco
+enable
+configure terminal
+
+spanning-tree mode rapid-pvst
+spanning-tree vlan 10,20 priority 4096
+
+ip routing
+```
+
+b) Creating VLAN 10 and VLAN 20
+```cisco
+vlan 10
+vlan 20
 exit
 ```
 
+c) Configuring the trunk toward Switch1
+```cisco
+interface e0/1
+ no shutdown
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk allowed vlan 10
+```
 
+d) Configuring the trunk toward Switch2
+```cisco
+interface e0/2
+ no shutdown
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk allowed vlan 20
+```
 
+e) Configuring the Layer 3 link toward R1
+```cisco
+interface e0/0
+ no switchport
+ no shutdown
+ ip address 10.10.10.1 255.255.255.252
+ ip ospf 1 area 0
+ ip ospf network point-to-point
+```
 
+f) Configuring Loopback0 for OSPF
+```cisco
+interface loopback 0
+ ip address 10.255.255.1 255.255.255.255
+ ip ospf 1 area 0
+```
 
+g) Configuring VLAN 10 SVI and DHCP relay
+```cisco
+interface vlan 10
+ ip address 192.168.10.1 255.255.255.0
+ ip ospf 1 area 0
+ ip helper-address 10.255.255.2
+ no shutdown
+```
 
+h) Configuring VLAN 20 SVI and DHCP relay
+```cisco
+interface vlan 20
+ ip address 192.168.20.1 255.255.255.0
+ ip ospf 1 area 0
+ ip helper-address 10.255.255.2
+ no shutdown
+```
 
+i) Configuring OSPF
+```cisco
+router ospf 1
+ router-id 10.255.255.1
+ passive-interface vlan 10
+ passive-interface vlan 20
+ passive-interface loopback 0
 
+exit
+```
 
+---
 
+# R1 Configuration
 
+**R1 performs:**
+- Centralized DHCP services for both VLANs.
+- OSPF routing
+- DHCP server
+- WAN connectivity
+- IP SLA monitoring
+- Object tracking
+- Default route failover
+- NAT/PAT
+- Route-map based NAT
 
+<br>
 
+a) Configuring the internal link toward the MLSW
+```cisco
+interface f0/0
+ no shutdown
+ ip address 10.10.10.2 255.255.255.252
+ ip ospf 1 area 0
+ ip ospf network point-to-point
+ ip nat inside
+```
 
+b) Configuring Loopback0 for OSPF and DHCP relay
+```cisco
+interface loopback 0
+ ip address 10.255.255.2 255.255.255.255
+ ip ospf 1 area 0
+```
 
+c) Configuring OSPF
+```cisco
+router ospf 1
+ router-id 10.255.255.2
+ passive-interface loopback 0
+ default-information originate
+```
 
+d) Configuring DHCP 
 
+- DHCP exclusions
+```cisco
+ip dhcp excluded-address 192.168.10.1 192.168.10.10
+ip dhcp excluded-address 192.168.20.1 192.168.20.10
+```
 
+- VLAN 10 DHCP pool
+```cisco
+ip dhcp pool VLAN-10
+ network 192.168.10.0 255.255.255.0
+ default-router 192.168.10.1
+```
 
+- VLAN 20 DHCP pool
+```cisco
+ip dhcp pool VLAN-20
+ network 192.168.20.0 255.255.255.0
+ default-router 192.168.20.1
 
+exit
+```
 
+---
 
+# WAN Configuration
 
+R1 has two independent WAN connections.
 
+```text
+R1 G1/0 → ISP-A
+R1 G2/0 → ISP-B
+```
 
+## ISP-A Interface
 
+```cisco
+interface g1/0
+ ip address 100.1.1.1 255.255.255.252
+ no shutdown
+ ip nat outside
+```
 
+## ISP-B Interface
 
+```cisco
+interface g2/0
+ ip address 200.1.1.1 255.255.255.252
+ no shutdown
+ ip nat outside
+```
 
+## Internal NAT Interface
+
+```cisco
+interface f0/0
+ ip nat inside
+
+exit
+```
+
+---
+
+# ISP-A Configuration
+
+ISP-A uses `100.1.1.2/30` on its connection to R1.
+
+Loopback0 is used as the IP SLA monitoring target, while Loopback10 provides the simulated Internet destination.
+
+```cisco
+enable
+configure terminal
+
+interface g1/0
+ no shutdown
+ ip address 100.1.1.2 255.255.255.252
+
+exit
+
+interface loopback 0
+ ip address 10.255.255.10 255.255.255.255
+
+exit
+
+interface loopback 10
+ ip address 8.8.8.8 255.255.255.255
+
+exit
+```
+
+---
+
+# ISP-B Configuration
+
+ISP-B uses `200.1.1.2/30` on its connection to R1.
+
+Loopback0 is used as the IP SLA monitoring target, while Loopback10 provides the simulated Internet destination.
+
+```cisco
+enable
+configure terminal
+
+interface g1/0
+ no shutdown
+ ip address 200.1.1.2 255.255.255.252
+
+exit
+
+interface loopback 0
+ ip address 10.255.255.20 255.255.255.255
+
+exit
+
+interface loopback 10
+ ip address 8.8.8.8 255.255.255.255
+
+exit
+```
+
+---
+
+# IP SLA Monitoring
+
+IP SLA monitors the availability of both ISP connections.
+
+R1 sends ICMP echo requests toward the monitoring address of each ISP using the corresponding WAN interface as the source.
+
+## ISP-A IP SLA
+
+```cisco
+ip sla 10
+ icmp-echo 10.255.255.10 source-interface g1/0
+ threshold 50
+ frequency 5
+ timeout 100
+
+exit
+
+ip sla schedule 10 start-time now life forever
+```
+
+## ISP-B IP SLA
+
+```cisco
+ip sla 20
+ icmp-echo 10.255.255.20 source-interface g2/0
+ threshold 50
+ frequency 5
+ timeout 100
+
+exit
+
+ip sla schedule 20 start-time now life forever
+```
+
+---
+
+# Object Tracking
+
+The IP SLA operations are associated with tracking objects.
+
+```cisco
+track 10 ip sla 10 reachability
+track 20 ip sla 20 reachability
+```
+
+The tracking objects monitor the reachability of the ISP paths.
+
+When an ISP becomes unavailable, the corresponding tracking object changes state and the associated tracked route is removed.
+
+---
+
+# ISP Monitoring Routes
+
+R1 uses static host routes to reach the IP SLA monitoring addresses through their respective ISPs.
+
+## ISP-A Monitoring Route
+
+```cisco
+ip route 10.255.255.10 255.255.255.255 g1/0 100.1.1.2
+```
+
+## ISP-B Monitoring Route
+
+```cisco
+ip route 10.255.255.20 255.255.255.255 g2/0 200.1.1.2
+```
+
+---
+
+# Default Route Failover
+
+The default routes are associated with the IP SLA tracking objects.
+
+## ISP-A
+
+```cisco
+ip route 0.0.0.0 0.0.0.0 g1/0 100.1.1.2 track 10
+```
+
+## ISP-B
+
+```cisco
+ip route 0.0.0.0 0.0.0.0 g2/0 200.1.1.2 track 20
+```
+
+The tracking mechanism allows R1 to automatically remove a default route when the corresponding ISP becomes unavailable.
+
+---
+
+# NAT/PAT Configuration
+
+Private addresses from VLAN 10 and VLAN 20 are translated before accessing the Internet.
+
+## NAT Access Lists
+
+```cisco
+access-list 10 permit 192.168.10.0 0.0.0.255
+access-list 20 permit 192.168.20.0 0.0.0.255
+
+exit
+```
+
+---
+
+# Primary NAT Route Maps
+
+## VLAN 10 → ISP-A
+
+```cisco
+route-map ISP-A permit 10
+ match ip address 10
+ match interface g1/0
+
+exit
+
+ip nat inside source route-map ISP-A interface g1/0 overload
+```
+
+## VLAN 20 → ISP-B
+
+```cisco
+route-map ISP-B permit 10
+ match ip address 20
+ match interface g2/0
+
+exit
+
+ip nat inside source route-map ISP-B interface g2/0 overload
+```
+
+---
+
+# Failover NAT Route Maps
+
+Additional NAT route maps provide translation through the backup ISP.
+
+## VLAN 10 → ISP-B During Failover
+
+```cisco
+route-map ISP-A_FAILOVER permit 10
+ match ip address 10
+ match interface g2/0
+
+exit
+
+ip nat inside source route-map ISP-A_FAILOVER interface g2/0 overload
+```
+
+## VLAN 20 → ISP-A During Failover
+
+```cisco
+route-map ISP-B_FAILOVER permit 10
+ match ip address 20
+ match interface g1/0
+
+exit
+
+ip nat inside source route-map ISP-B_FAILOVER interface g1/0 overload
+```
+
+---
+
+# Complete R1 Configuration
+
+The complete R1 configuration is provided below for reference.
+
+```cisco
+enable
+configure terminal
+
+!
+! ==============================
+! INTERNAL OSPF INTERFACE
+! ==============================
+!
+
+interface f0/0
+ no shutdown
+ ip address 10.10.10.2 255.255.255.252
+ ip ospf 1 area 0
+ ip ospf network point-to-point
+ ip nat inside
+
+interface loopback 0
+ ip address 10.255.255.2 255.255.255.255
+ ip ospf 1 area 0
+
+router ospf 1
+ router-id 10.255.255.2
+ passive-interface loopback 0
+ default-information originate
+
+!
+! ==============================
+! DHCP
+! ==============================
+!
+
+ip dhcp excluded-address 192.168.10.1 192.168.10.10
+ip dhcp excluded-address 192.168.20.1 192.168.20.10
+
+ip dhcp pool VLAN-10
+ network 192.168.10.0 255.255.255.0
+ default-router 192.168.10.1
+
+exit
+
+ip dhcp pool VLAN-20
+ network 192.168.20.0 255.255.255.0
+ default-router 192.168.20.1
+
+exit
+
+!
+! ==============================
+! ISP-A
+! ==============================
+!
+
+interface g1/0
+ ip address 100.1.1.1 255.255.255.252
+ no shutdown
+ ip nat outside
+
+!
+! ==============================
+! ISP-B
+! ==============================
+!
+
+interface g2/0
+ ip address 200.1.1.1 255.255.255.252
+ no shutdown
+ ip nat outside
+
+!
+! ==============================
+! IP SLA
+! ==============================
+!
+
+ip sla 10
+ icmp-echo 10.255.255.10 source-interface g1/0
+ threshold 50
+ frequency 5
+ timeout 100
+
+exit
+
+ip sla 20
+ icmp-echo 10.255.255.20 source-interface g2/0
+ threshold 50
+ frequency 5
+ timeout 100
+
+exit
+
+ip sla schedule 10 start-time now life forever
+ip sla schedule 20 start-time now life forever
+
+!
+! ==============================
+! OBJECT TRACKING
+! ==============================
+!
+
+track 10 ip sla 10 reachability
+track 20 ip sla 20 reachability
+
+!
+! ==============================
+! ISP MONITORING ROUTES
+! ==============================
+!
+
+ip route 10.255.255.10 255.255.255.255 g1/0 100.1.1.2
+ip route 10.255.255.20 255.255.255.255 g2/0 200.1.1.2
+
+!
+! ==============================
+! DEFAULT ROUTES
+! ==============================
+!
+
+ip route 0.0.0.0 0.0.0.0 g1/0 100.1.1.2 track 10
+ip route 0.0.0.0 0.0.0.0 g2/0 200.1.1.2 track 20
+
+!
+! ==============================
+! NAT ACCESS LISTS
+! ==============================
+!
+
+access-list 10 permit 192.168.10.0 0.0.0.255
+access-list 20 permit 192.168.20.0 0.0.0.255
+
+exit
+
+!
+! ==============================
+! PRIMARY NAT - ISP-A
+! ==============================
+!
+
+route-map ISP-A permit 10
+ match ip address 10
+ match interface g1/0
+
+exit
+
+ip nat inside source route-map ISP-A interface g1/0 overload
+
+!
+! ==============================
+! PRIMARY NAT - ISP-B
+! ==============================
+!
+
+route-map ISP-B permit 10
+ match ip address 20
+ match interface g2/0
+
+exit
+
+ip nat inside source route-map ISP-B interface g2/0 overload
+
+!
+! ==============================
+! FAILOVER NAT - VLAN 10
+! ==============================
+!
+
+route-map ISP-A_FAILOVER permit 10
+ match ip address 10
+ match interface g2/0
+
+exit
+
+ip nat inside source route-map ISP-A_FAILOVER interface g2/0 overload
+
+!
+! ==============================
+! FAILOVER NAT - VLAN 20
+! ==============================
+!
+
+route-map ISP-B_FAILOVER permit 10
+ match ip address 20
+ match interface g1/0
+
+exit
+
+ip nat inside source route-map ISP-B_FAILOVER interface g1/0 overload
+
+exit
+```
 
