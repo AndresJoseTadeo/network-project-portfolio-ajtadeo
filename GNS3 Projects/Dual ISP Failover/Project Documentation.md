@@ -29,7 +29,7 @@ The two ISP connections provide redundancy so that Internet connectivity can con
 
 ## Network Topology
 
-<img width="1914" height="885" alt="image" src="https://github.com/user-attachments/assets/9a43e5eb-8157-4ae8-afb1-606c64863aa7" />
+<img width="2044" height="979" alt="image" src="https://github.com/user-attachments/assets/84ac9a14-82de-4657-9c18-14d15ce6d181" />
 
 
 ### Topology Components
@@ -397,7 +397,8 @@ exit
 
 # WAN Configuration
 
-<img width="797" height="523" alt="image" src="https://github.com/user-attachments/assets/fcbd2433-767c-4619-894b-0afe1e16daa6" />
+<img width="902" height="574" alt="image" src="https://github.com/user-attachments/assets/311fc7f1-e762-491a-809d-ae2e4b639b81" />
+
 
 # 1. R1 (Router)
 **R1 provides dual-WAN connectivity through ISP-A and ISP-B.**
