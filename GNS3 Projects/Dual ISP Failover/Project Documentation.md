@@ -326,7 +326,7 @@ exit
 
 ---
 
-# 4. R1 (Router)
+## 4. R1 (Router)
 
 **R1 performs:**
 - Centralized DHCP services for both VLANs.
@@ -400,7 +400,7 @@ exit
 <img width="902" height="574" alt="image" src="https://github.com/user-attachments/assets/311fc7f1-e762-491a-809d-ae2e4b639b81" />
 
 
-# 1. R1 (Router)
+## 1. R1 (Router)
 **R1 provides dual-WAN connectivity through ISP-A and ISP-B.**
 - R1 G1/0 connects to ISP-A using the `100.1.1.0/30` network.
 - R1 G2/0 connects to ISP-B using the `200.1.1.0/30` network.
@@ -426,7 +426,7 @@ interface g2/0
 exit
 ```
 
-# 2. ISP-A Configuration
+## 2. ISP-A Configuration
 
 **ISP-A uses:**
 - `100.1.1.2/30` for connection to R1
@@ -461,7 +461,7 @@ interface loopback 10
 exit
 ```
 
-# 3. ISP-B Configuration
+## 3. ISP-B Configuration
 
 **ISP-B uses:**
 - `200.1.1.2/30` for connection to R1
@@ -496,6 +496,85 @@ interface loopback 10
 exit
 ```
 
+# IP SLA Configuration
+**R1 uses IP SLA to continuously monitor the availability of both ISP connections.**
+
+R1 sends ICMP echo requests through the appropriate WAN interface toward each ISP's monitoring address.
+
+a) Configuring IP SLA for ISP-A
+```cisco
+ip sla 10
+ icmp-echo 10.255.255.10 source-interface g1/0
+ threshold 50
+ frequency 5
+ timeout 100
+
+exit
+```
+
+b) Scheduling IP SLA 10
+```cisco
+ip sla schedule 10 start-time now life forever
+```
+
+c) Configuring IP SLA for ISP-B
+```cisco
+ip sla 20
+ icmp-echo 10.255.255.20 source-interface g2/0
+ threshold 50
+ frequency 5
+ timeout 100
+
+exit
+```
+
+d) Scheduling IP SLA 20
+```cisco
+ip sla schedule 20 start-time now life forever
+```
+
+# Object Tracking 
+**Object tracking links the IP SLA results to the WAN default routes.**
+When an IP SLA operation fails, its corresponding tracking object changes state.
+
+a) Tracking ISP-A
+```cisco
+track 10 ip sla 10 reachability
+```
+
+b) Tracking ISP-B
+```cisco
+track 20 ip sla 20 reachability
+```
+
+# ISP Monitoring Routes
+**R1 requires specific routes to reach the IP SLA monitoring addresses through their respective ISPs.**
+
+a) Configuring the ISP-A monitoring route
+```cisco
+ip route 10.255.255.10 255.255.255.255 g1/0 100.1.1.2
+```
+
+b) Configuring the ISP-B monitoring route
+```cisco
+ip route 10.255.255.20 255.255.255.255 g2/0 200.1.1.2
+```
+
+# Default Route Failover
+**R1 uses tracked static default routes to provide automatic WAN failover.**
+When the corresponding IP SLA becomes unreachable, the tracked default route is removed.
+
+a) Configuring the ISP-A default route (tracking ISP-A)
+```cisco
+ip route 0.0.0.0 0.0.0.0 g1/0 100.1.1.2 track 10
+```
+
+b) Configuring the ISP-B default route (tracking ISP-B)
+```cisco
+ip route 0.0.0.0 0.0.0.0 g1/0 200.1.1.2 track 20
+```
+
+# NAT/PAT Configuration
 
 
 
