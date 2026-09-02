@@ -501,7 +501,16 @@ exit
 
 R1 sends ICMP echo requests toward each ISP's monitoring address.
 
-a) Configuring IP SLA for ISP-A
+<img width="815" height="549" alt="image" src="https://github.com/user-attachments/assets/246a42b8-71ce-4826-93db-c64f9a8cc2b8" />
+
+## IP SLA 10
+
+a) Configuring the ISP-A monitoring route
+```cisco
+ip route 10.255.255.10 255.255.255.255 g1/0 100.1.1.2
+```
+
+b) Configuring IP SLA for ISP-A
 ```cisco
 ip sla 10
  icmp-echo 10.255.255.10 source-interface g1/0
@@ -512,12 +521,19 @@ ip sla 10
 exit
 ```
 
-b) Scheduling IP SLA 10
+c) Scheduling IP SLA 10
 ```cisco
 ip sla schedule 10 start-time now life forever
 ```
 
-c) Configuring IP SLA for ISP-B
+## IP SLA 20
+
+a) Configuring the ISP-B monitoring route
+```cisco
+ip route 10.255.255.20 255.255.255.255 g2/0 200.1.1.2
+```
+
+b) Configuring IP SLA for ISP-B
 ```cisco
 ip sla 20
  icmp-echo 10.255.255.20 source-interface g2/0
@@ -528,10 +544,22 @@ ip sla 20
 exit
 ```
 
-d) Scheduling IP SLA 20
+c) Scheduling IP SLA 20
 ```cisco
 ip sla schedule 20 start-time now life forever
 ```
+
+<br>
+
+**R1 sends an ICMP echo request to each ISP every 5 seconds.** 
+
+
+
+<img width="2002" height="613" alt="image" src="https://github.com/user-attachments/assets/85afa357-b6bc-4bdd-bf83-750b3cd24b61" />
+
+<img width="1994" height="612" alt="image" src="https://github.com/user-attachments/assets/09e50a26-5af2-4ec3-aa1a-ae15631f25f6" />
+
+---
 
 # Object Tracking 
 **Object tracking links the IP SLA results to the WAN default routes.**
@@ -547,18 +575,7 @@ b) Tracking ISP-B
 track 20 ip sla 20 reachability
 ```
 
-# ISP Monitoring Routes
-**R1 requires specific routes to reach the IP SLA monitoring addresses through their respective ISPs.**
-
-a) Configuring the ISP-A monitoring route
-```cisco
-ip route 10.255.255.10 255.255.255.255 g1/0 100.1.1.2
-```
-
-b) Configuring the ISP-B monitoring route
-```cisco
-ip route 10.255.255.20 255.255.255.255 g2/0 200.1.1.2
-```
+<img width="344" height="323" alt="image" src="https://github.com/user-attachments/assets/34eb9ee3-60a6-4e43-b3a7-16175e5fa2e6" />
 
 # Default Route Failover
 **R1 uses tracked static default routes to provide automatic WAN failover.**
