@@ -554,10 +554,13 @@ ip sla schedule 20 start-time now life forever
 **R1 sends an ICMP echo request to each ISP every 5 seconds.** 
 
 
-
+- R1 g1/0 <--> ISP-A g1/0
 <img width="2002" height="613" alt="image" src="https://github.com/user-attachments/assets/85afa357-b6bc-4bdd-bf83-750b3cd24b61" />
 
-<img width="1994" height="612" alt="image" src="https://github.com/user-attachments/assets/09e50a26-5af2-4ec3-aa1a-ae15631f25f6" />
+<br><br>
+
+- R1 g2/0 <--> ISP-b g1/0
+<img width="1994" height="612" alt="image" src="https://github.com/user-attachments/assets/e57175da-b987-4d5a-bf22-47ef6b68412a" />
 
 ---
 
