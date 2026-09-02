@@ -499,7 +499,7 @@ exit
 # IP SLA Configuration
 **R1 uses IP SLA to continuously monitor the availability of both ISP connections.**
 
-R1 sends ICMP echo requests through the appropriate WAN interface toward each ISP's monitoring address.
+R1 sends ICMP echo requests toward each ISP's monitoring address.
 
 a) Configuring IP SLA for ISP-A
 ```cisco
