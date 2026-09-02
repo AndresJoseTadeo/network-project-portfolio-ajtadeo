@@ -596,6 +596,70 @@ ip route 0.0.0.0 0.0.0.0 g2/0 200.1.1.2 track 20
 <img width="897" height="587" alt="image" src="https://github.com/user-attachments/assets/099f31b8-9fac-427a-a432-73fbce752e57" />
 
 # NAT/PAT Configuration
+**R1 performs PAT for the private VLAN networks before traffic is sent to the Internet.**
+
+a) Configuring the VLAN 10 NAT access list
+```cisco
+access-list 10 permit 192.168.10.0 0.0.0.255
+```
+
+b) Configuring the VLAN 20 NAT access list
+```cisco
+access-list 20 permit 192.168.20.0 0.0.0.255
+```
+
+## Primary NAT Route Maps
+**Route maps determine which WAN interface is used for NAT based on the source VLAN and outgoing interface.**
+
+a) VLAN 10 ==> ISP-A
+```cisco
+route-map ISP-A permit 10
+ match ip address 10
+ match interface g1/0
+
+exit
+
+ip nat inside source route-map ISP-A interface g1/0 overload
+```
+
+b) VLAN 20 ==> ISP-B
+```cisco
+route-map ISP-B permit 10
+ match ip address 20
+ match interface g2/0
+
+exit
+
+ip nat inside source route-map ISP-B interface g2/0 overload
+```
+
+## Failover NAT Route Maps
+Additional route maps allow the VLANs to be translated through the alternate ISP when traffic is routed through the backup WAN interface.
+
+a) VLAN 10 ==> ISP-B during ISP-A failure
+```cisco
+route-map ISP-A_FAILOVER permit 10
+ match ip address 10
+ match interface g2/0
+
+exit
+
+```
+
+b) VLAN 20 ==> ISP-A during ISP-B failure
+```cisco
+route-map ISP-B_FAILOVER permit 10
+ match ip address 20
+ match interface g1/0
+
+exit
+
+ip nat inside source route-map ISP-B_FAILOVER interface g1/0 overload
+```
+
+
+
+
 
 
 
