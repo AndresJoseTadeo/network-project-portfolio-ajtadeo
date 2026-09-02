@@ -675,7 +675,7 @@ ip nat inside source route-map ISP-B_FAILOVER interface g1/0 overload
 ```
 
 
-
+TEST RESULTS, FAILOVER SIMULATION (WIP)
 
 
 
