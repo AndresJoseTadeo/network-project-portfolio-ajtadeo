@@ -591,8 +591,9 @@ ip route 0.0.0.0 0.0.0.0 g1/0 100.1.1.2 track 10
 
 b) Configuring the ISP-B default route (tracking ISP-B)
 ```cisco
-ip route 0.0.0.0 0.0.0.0 g1/0 200.1.1.2 track 20
+ip route 0.0.0.0 0.0.0.0 g2/0 200.1.1.2 track 20
 ```
+<img width="897" height="587" alt="image" src="https://github.com/user-attachments/assets/099f31b8-9fac-427a-a432-73fbce752e57" />
 
 # NAT/PAT Configuration
 
