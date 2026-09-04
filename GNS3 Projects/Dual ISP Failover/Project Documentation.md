@@ -1,4 +1,4 @@
-# DUAL ISP FAILOVER (WORK IN PROGRESS)
+<img width="1396" height="987" alt="image" src="https://github.com/user-attachments/assets/b44e5002-3ac4-4c80-b8e4-50aafd823d2d" /># DUAL ISP FAILOVER (WORK IN PROGRESS)
 
 ## Project Overview 
 
@@ -609,7 +609,7 @@ access-list 20 permit 192.168.20.0 0.0.0.255
 ```
 
 ## Primary NAT Route Maps
-**Route maps determine which WAN interface is used for NAT based on the source VLAN and outgoing interface.**
+**These Route maps determine which WAN interface is used for NAT based on the source VLAN and outgoing interface.**
 
 a) VLAN 10 ==> ISP-A
 - Match the outgoing interface to ISP-A
@@ -642,7 +642,7 @@ ip nat inside source route-map ISP-B interface g2/0 overload
 ```
 
 ## Failover NAT Route Maps
-Additional route maps allow the VLANs to be translated through the alternate ISP when traffic is routed through the backup WAN interface.
+**These additional route maps allow the VLANs to be translated through the alternate ISP when traffic is routed through the backup WAN interface.**
 
 a) VLAN 10 ==> ISP-B during ISP-A failure
 - Match the outgoing interface to ISP-B
@@ -675,8 +675,21 @@ ip nat inside source route-map ISP-B_FAILOVER interface g1/0 overload
 ```
 
 
-TEST RESULTS, FAILOVER SIMULATION (WIP)
+# TEST RESULTS, FAILOVER SIMULATION (WIP)
 
+## Scenario 1: Both ISPs are working properly
+<img width="1772" height="849" alt="image" src="https://github.com/user-attachments/assets/f267cf88-d837-4e92-beca-cf274233e601" />
+
+a) Ping / Trace 8.8.8.8 (VLAN 10)
+<img width="1396" height="987" alt="image" src="https://github.com/user-attachments/assets/3e467b17-7955-46f2-b8fa-7af9015c3f3d" />
+
+b) Ping / Trace 8.8.8.8 (VLAN 20)
+<img width="1397" height="981" alt="image" src="https://github.com/user-attachments/assets/94440c5c-e625-4aca-a005-241c83fe5370" />
+
+c) IP SLA / Tracking Status
+<img width="1398" height="1297" alt="image" src="https://github.com/user-attachments/assets/b0bf55f9-bc36-48fd-b191-9ffe8ecba8fe" />
+
+## Scenario 2 : Link to ISP-A fails
 
 
 
