@@ -2,7 +2,7 @@
 
 ## Project Overview 
 
-This project implements a small enterprise network with:
+This project implements a network topology with:
   -	Two user VLANs 
   -	Layer 3 inter-VLAN routing 
   -	Centralized DHCP 
