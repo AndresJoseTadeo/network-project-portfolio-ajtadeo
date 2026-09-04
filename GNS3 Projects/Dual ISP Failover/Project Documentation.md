@@ -1,4 +1,4 @@
-# DUAL ISP FAILOVER with Load Distribution
+# DUAL ISP FAILOVER WITH LOAD DISTRIBUTION
 
 ## Project Overview 
 
@@ -675,7 +675,7 @@ ip nat inside source route-map ISP-B_FAILOVER interface g1/0 overload
 ```
 
 
-# TEST RESULTS, FAILOVER SIMULATION (WIP)
+# Failover Simulation / Test Results
 
 ## Scenario 1: Both ISPs are working properly
 <img width="1772" height="849" alt="image" src="https://github.com/user-attachments/assets/f267cf88-d837-4e92-beca-cf274233e601" />
@@ -736,4 +736,19 @@ c) Ping / Trace 8.8.8.8 (VLAN 20)
 <img width="1397" height="819" alt="image" src="https://github.com/user-attachments/assets/0a5c52cb-0814-4386-8525-0a26ddb74ae8" />
 <br><br>
 
+# Observations
+## ICMP Type 3 Code 3 in Traceroute
+During the traceroute test, I observed that the trace reached the destination and returned an ICMP Destination Unreachable (Type 3, Code 3 – Port Unreachable) response. This suggests that the traceroute completed successfully. Since the traceroute uses UDP probes, the destination likely responded because the probe reached an unused UDP port. This behavior is expected and can be taken as an indication that the destination was successfully reached.
+
+<br>
+<img width="812" height="349" alt="image" src="https://github.com/user-attachments/assets/2588b17b-68c7-4b18-b0e0-e804b6c7e847" />
+
+
+
+## IP SLA Behavior During Device Boot-Up
+
+After rebooting the network, I noticed that the initial ICMP Echo Requests from IP SLA failed for a short time. This was expected while the downstream routers, interfaces, and routing protocols were still starting up. Once the devices finished booting and the network had fully converged, the IP SLA probes started succeeding again.
+<br>
+
+<img width="596" height="450" alt="image" src="https://github.com/user-attachments/assets/9f3f3cf3-4bd1-4ee1-8e53-af6cfecca476" />
 
