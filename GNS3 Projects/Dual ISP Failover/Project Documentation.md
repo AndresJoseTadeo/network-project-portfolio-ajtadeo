@@ -738,7 +738,7 @@ c) Ping / Trace 8.8.8.8 (VLAN 20)
 
 # Observations
 ## ICMP Type 3 Code 3 in Traceroute
-During the traceroute test, I observed that the trace reached the destination and returned an ICMP Destination Unreachable (Type 3, Code 3 – Port Unreachable) response. This suggests that the traceroute completed successfully. Since the traceroute uses UDP probes, the destination likely responded because the probe reached an unused UDP port. This behavior is expected and can be taken as an indication that the destination was successfully reached.
+During the traceroute test, I observed that the trace reached the destination and returned an ICMP Destination Unreachable (Type 3, Code 3 – Port Unreachable) response. This suggests that the traceroute completed successfully. Since the traceroute uses UDP probes, the destination likely responded because the probe reached an unused UDP port. This behavior is normal and can be taken as an indication that the destination was successfully reached.
 
 <br>
 <img width="812" height="349" alt="image" src="https://github.com/user-attachments/assets/2588b17b-68c7-4b18-b0e0-e804b6c7e847" />
@@ -747,7 +747,7 @@ During the traceroute test, I observed that the trace reached the destination an
 
 ## IP SLA Behavior During Device Boot-Up
 
-After rebooting the network, I noticed that the initial ICMP Echo Requests from IP SLA failed for a short time. This was expected while the downstream routers, interfaces, and routing protocols were still starting up. Once the devices finished booting and the network had fully converged, the IP SLA probes started succeeding again.
+During the traceroute test, I noticed that the trace was able to reach the destination and received an ICMP Destination Unreachable response (Type 3, Code 3 – Port Unreachable). This means that the traceroute was completed successfully. Since traceroute uses UDP probes, the response was likely sent because the probe reached a closed or unused UDP port on the destination. This is normal behavior and shows that the destination was successfully reached.
 <br>
 
 <img width="596" height="450" alt="image" src="https://github.com/user-attachments/assets/9f3f3cf3-4bd1-4ee1-8e53-af6cfecca476" />
