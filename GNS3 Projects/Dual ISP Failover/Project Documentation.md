@@ -615,6 +615,7 @@ a) VLAN 10 ==> ISP-A
 - Match the outgoing interface to ISP-A
 - Match IP address in ACL 10.
 - Permit sequence 10 in ACL 10.
+- Configure PAT using the outgoing interface. 
 
 ```cisco
 route-map ISP-A permit 10
@@ -630,6 +631,7 @@ b) VLAN 20 ==> ISP-B
 - Match the outgoing interface to ISP-B
 - Match IP address in ACL 20.
 - Permit sequence 10 in ACL 20.
+- Configure PAT using the outgoing interface. 
   
 ```cisco
 route-map ISP-B permit 10
@@ -648,6 +650,7 @@ a) VLAN 10 ==> ISP-B during ISP-A failure
 - Match the outgoing interface to ISP-B
 - Match IP address in ACL 10.
 - Permit sequence 10 in ACL 10.
+- Configure PAT using the outgoing interface. 
   
 ```cisco
 route-map ISP-A_FAILOVER permit 10
@@ -663,6 +666,7 @@ b) VLAN 20 ==> ISP-A during ISP-B failure
 - Match the outgoing interface to ISP-A
 - Match IP address in ACL 20.
 - Permit sequence 10 in ACL 20.
+- Configure PAT using the outgoing interface. 
   
 ```cisco
 route-map ISP-B_FAILOVER permit 10
