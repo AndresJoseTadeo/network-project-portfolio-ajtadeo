@@ -761,4 +761,4 @@ During the traceroute test, I noticed that the trace was able to reach the desti
 # Conclusion
 This project is an extension of my previous Packet Tracer projects, taking the WAN setup a step further using GNS3. I wanted to simulate a dual-ISP setup with automatic failover, which was difficult to achieve in Packet Tracer.
 
-I used IP SLA tracking and policy-based routing with route maps to automatically switch from ISP-A to ISP-B when the primary connection goes down.
+I used IP SLA Tracking and Policy-Based Routing with Route Maps to automatically switch from ISP-A to ISP-B when the primary connection goes down.
