@@ -45,7 +45,7 @@ A portfolio of hands-on network configuration projects, showcasing enterprise ne
 
 [View Project on GitHub](https://github.com/AndresJoseTadeo/network-project-portfolio-ajtadeo/tree/main/GNS3%20Projects/Dual%20ISP%20Failover)
 
-<img width="1568" height="728" alt="Network Topology" src="https://github.com/user-attachments/assets/6a3cd8d7-acfe-4e9d-bbb1-5879106266f0" />
+<img width="2044" height="979" alt="Network Topology" src="https://github.com/user-attachments/assets/ed186426-b5b5-4564-88f6-05d40f27cce3" />
 
 **Objectives:**
 
