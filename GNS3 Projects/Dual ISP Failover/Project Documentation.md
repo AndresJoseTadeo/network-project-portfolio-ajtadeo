@@ -685,17 +685,17 @@ ip nat inside source route-map ISP-B_FAILOVER interface g1/0 overload
 <img width="1772" height="849" alt="image" src="https://github.com/user-attachments/assets/f267cf88-d837-4e92-beca-cf274233e601" />
 <br><br>
 
-a) IP SLA / Tracking Status
+**a) IP SLA / Tracking Status**
 <br><br>
 <img width="1398" height="1297" alt="image" src="https://github.com/user-attachments/assets/b0bf55f9-bc36-48fd-b191-9ffe8ecba8fe" />
 <br><br>
 
-b) Ping / Trace 8.8.8.8 (VLAN 10)
+**b) Ping / Trace 8.8.8.8 (VLAN 10)**
 <br><br>
 <img width="1396" height="987" alt="image" src="https://github.com/user-attachments/assets/20ad92c7-b238-463d-8cff-609da363afa5" />
 <br><br>
 
-c) Ping / Trace 8.8.8.8 (VLAN 20)
+**c) Ping / Trace 8.8.8.8 (VLAN 20)**
 <br><br>
 <img width="1397" height="981" alt="image" src="https://github.com/user-attachments/assets/ebf4f10d-1705-406d-8217-b3dd394e482a" />
 <br><br>
@@ -706,16 +706,16 @@ c) Ping / Trace 8.8.8.8 (VLAN 20)
 <img width="1772" height="849" alt="image" src="https://github.com/user-attachments/assets/3a71d5e9-764d-4566-aae0-e19bfebc00ab" />
 <br><br>
 
-a) IP SLA / Tracking Status
+**a) IP SLA / Tracking Status**
 <br><br>
 <img width="1400" height="1278" alt="image" src="https://github.com/user-attachments/assets/c2972566-4e73-44a1-960d-6e058c90c73c" />
 
-b) Ping / Trace 8.8.8.8 (VLAN 10)
+**b) Ping / Trace 8.8.8.8 (VLAN 10)**
 <br><br>
 <img width="1394" height="856" alt="image" src="https://github.com/user-attachments/assets/8a9f6376-3c8d-490f-a612-ecb9dbceb4c0" />
 <br><br>
 
-c) Ping / Trace 8.8.8.8 (VLAN 20)
+**c) Ping / Trace 8.8.8.8 (VLAN 20)**
 <br><br>
 <img width="1401" height="849" alt="image" src="https://github.com/user-attachments/assets/d0c92cf5-c941-4621-b65d-fc92c7f3658b" />
 <br><br>
@@ -725,17 +725,17 @@ c) Ping / Trace 8.8.8.8 (VLAN 20)
 <img width="1772" height="849" alt="image" src="https://github.com/user-attachments/assets/319cd78c-b8e8-4b67-80a2-0ee8238996ac" />
 <br><br>
 
-a) IP SLA / Tracking Status
+**a) IP SLA / Tracking Status**
 <br><br>
 <img width="1400" height="1269" alt="image" src="https://github.com/user-attachments/assets/e7ccce64-d503-443f-be94-e6bbafc6b488" />
 <br><br>
 
-b) Ping / Trace 8.8.8.8 (VLAN 10)
+**b) Ping / Trace 8.8.8.8 (VLAN 10)**
 <br><br>
 <img width="1402" height="814" alt="image" src="https://github.com/user-attachments/assets/fb00f419-7f1b-40d9-ae9a-3a3841af364c" />
 <br><br>
 
-c) Ping / Trace 8.8.8.8 (VLAN 20)
+**c) Ping / Trace 8.8.8.8 (VLAN 20)**
 <br><br>
 <img width="1397" height="819" alt="image" src="https://github.com/user-attachments/assets/0a5c52cb-0814-4386-8525-0a26ddb74ae8" />
 <br><br>
