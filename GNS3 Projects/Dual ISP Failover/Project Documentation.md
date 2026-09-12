@@ -20,10 +20,10 @@ The two ISP connections provide redundancy so that Internet connectivity can con
 ---
 
 ## Devices Used
-| Device | image |
-|:---:|:---:|
-| Switches L2/L3 | i86bi_linux_l2-adventerprisek9-ms.SSA.high_iron_20190423 |
-| Router | c7200-advipservicesk9-mz.152-4.S5 |
+| Device | image | Type |
+|:---:|:---:|:---:|
+| Switches L2/L3 | i86bi_linux_l2-adventerprisek9-ms.SSA.high_iron_20190423 | IOL |
+| Router | c7200-advipservicesk9-mz.152-4.S5 | Dynamips |
 
 ---
 
