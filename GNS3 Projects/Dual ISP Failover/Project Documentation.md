@@ -612,9 +612,9 @@ access-list 20 permit 192.168.20.0 0.0.0.255
 **These Route maps determine which WAN interface is used for NAT based on the source VLAN and outgoing interface.**
 
 a) VLAN 10 ==> ISP-A
+- Define the route-map
 - Match the outgoing interface to ISP-A
 - Match IP address in ACL 10.
-- Permit sequence 10 in ACL 10.
 - Configure PAT using the outgoing interface. 
 
 ```cisco
@@ -628,9 +628,9 @@ ip nat inside source route-map ISP-A interface g1/0 overload
 ```
 
 b) VLAN 20 ==> ISP-B
+- Define the route-map
 - Match the outgoing interface to ISP-B
 - Match IP address in ACL 20.
-- Permit sequence 10 in ACL 20.
 - Configure PAT using the outgoing interface. 
   
 ```cisco
@@ -647,9 +647,9 @@ ip nat inside source route-map ISP-B interface g2/0 overload
 **These additional route maps allow the VLANs to be translated through the alternate ISP when traffic is routed through the backup WAN interface.**
 
 a) VLAN 10 ==> ISP-B during ISP-A failure
+- Define the route-map
 - Match the outgoing interface to ISP-B
 - Match IP address in ACL 10.
-- Permit sequence 10 in ACL 10.
 - Configure PAT using the outgoing interface. 
   
 ```cisco
@@ -663,9 +663,9 @@ ip nat inside source route-map ISP-A_FAILOVER interface g2/0 overload
 ```
 
 b) VLAN 20 ==> ISP-A during ISP-B failure
+- Define the route-map
 - Match the outgoing interface to ISP-A
 - Match IP address in ACL 20.
-- Permit sequence 10 in ACL 20.
 - Configure PAT using the outgoing interface. 
   
 ```cisco
