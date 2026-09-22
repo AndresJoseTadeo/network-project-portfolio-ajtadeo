@@ -4,6 +4,8 @@
 
 ## Project Overview 
 
+This project implements a network topology with:
+
 ---
 
 ## Devices Used
@@ -22,7 +24,8 @@
 
 | Device | Role |
 |:---:|:---:|
-
+|Fortigate v7.0.3 | Firewall |
+| 
 
 ---
 
@@ -46,7 +49,7 @@
 
 # Technologies Used
 
-
+- 
 
 ---
 
