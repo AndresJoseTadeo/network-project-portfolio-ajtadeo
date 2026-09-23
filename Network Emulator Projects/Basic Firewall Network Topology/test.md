@@ -1,4 +1,3 @@
-# Basic Firewall Network Topology
 
 ## Project Overview
 
@@ -101,23 +100,7 @@ For this project, I wanted the network to meet several requirements.
 
 The first requirement is to allow communication between the two internal LANs.
 
-```text
-LAN 1
-192.168.10.0/24
-       |
-       v
-    Router1
-       |
-       v
-   FortiGate
-       |
-       v
-    Router2
-       |
-       v
-LAN 2
-192.168.20.0/24
-```
+<img width="894" height="810" alt="image" src="https://github.com/user-attachments/assets/e75f143c-f8fc-4299-8adb-12af5247b646" />
 
 I configured the network so that devices in LAN 1 can communicate with devices in LAN 2 and vice versa.
 
