@@ -38,7 +38,7 @@ The DMZ contains three servers that are accessible from the Internet through con
 
 | Device | Role |
 |:---|:---|
-| FortiGate v7.0.3 | Central firewall, DHCP server, NAT gateway, router, and port-forwarding device |
+| FortiGate | Central firewall, DHCP server, NAT gateway, router, and port-forwarding device |
 | Router1 | Routes traffic between Internal LAN 1 and the FortiGate |
 | Router2 | Routes traffic between Internal LAN 2 and the FortiGate |
 | Router_DMZ | Routes traffic between the FortiGate and DMZ network |
