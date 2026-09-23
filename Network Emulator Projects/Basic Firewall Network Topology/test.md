@@ -13,7 +13,7 @@ The main goal of this project was to build a network where I could practice and 
 - DMZ network segmentation
 - Remote server administration
 
-I divided the network into an **Internal Network**, a **DMZ Network**, and an **External/Internet Network**. This allows me to control how traffic moves between different parts of the network instead of allowing unrestricted communication.
+The network is divided into an **Internal Network**, a **DMZ Network**, and an **External/Internet Network**. This allows us to control how traffic moves between different parts of the network instead of allowing unrestricted communication.
 
 The FortiGate acts as the central point for firewall policies, NAT, DHCP, and traffic control.
 
@@ -92,6 +92,24 @@ This network connection allows me to access the Firewall's GUI and make configur
 
 ---
 
+---
+
+# IP Addressing Summary
+
+| Network | Purpose |
+|:---|:---|
+| `100.1.1.0/30` | External/Internet network |
+| `10.10.10.0/30` | FortiGate ↔ Router1 |
+| `10.10.20.0/30` | FortiGate ↔ Router2 |
+| `10.10.100.0/30` | FortiGate ↔ Router_DMZ |
+| `192.168.10.0/24` | LAN 1 |
+| `192.168.20.0/24` | LAN 2 |
+| `172.16.100.0/28` | DMZ |
+| `192.168.222.0/24` | VMware Management Network |
+
+---
+
+
 # Project Requirements
 
 For this project, I wanted the network to meet several requirements.
@@ -100,23 +118,40 @@ For this project, I wanted the network to meet several requirements.
 
 The first requirement is to allow communication between the two internal LANs.
 
-<img width="894" height="810" alt="image" src="https://github.com/user-attachments/assets/e75f143c-f8fc-4299-8adb-12af5247b646" />
+<img width="972" height="949" alt="image" src="https://github.com/user-attachments/assets/6fe4b782-4cf9-4410-b3ae-0717b8a5db7b" />
+
+&nbsp;
 
 I configured the network so that devices in LAN 1 can communicate with devices in LAN 2 and vice versa.
 
-For example, PC-1 should be able to reach a device in LAN 2:
+<img width="2000" height="677" alt="image" src="https://github.com/user-attachments/assets/40a3c44c-59c4-4fa0-b4e8-62f472d8f531" />
 
-```bash
-ping 192.168.20.x
+&nbsp;
+
+<details>
+
+<summary>See the Configuration</summary>
+
+### You can add a header
+
+You can add text within a collapsed section.
+
+You can add an image or a code block, too.
+
+```ruby
+   puts "Hello World"
 ```
 
-Similarly, a device in LAN 2 should be able to reach a device in LAN 1.
+</details>
 
 ---
 
 # 2. DHCP for the Internal Networks
 
 Instead of manually assigning IP addresses to every PC, I configured the FortiGate to provide DHCP services for the internal networks.
+
+<img width="758" height="649" alt="image" src="https://github.com/user-attachments/assets/5b00320b-3f0c-4ed9-868f-3eebc81b8959" />
+
 
 For LAN 1:
 
@@ -148,6 +183,8 @@ The DHCP service provides the clients with:
 # 3. DMZ Network Segmentation
 
 One of the main parts of this project is the DMZ.
+
+<img width="1840" height="707" alt="image" src="https://github.com/user-attachments/assets/178ab629-be64-46cd-bb9d-71c9c55d3bb1" />
 
 I separated the servers from the Internal Network by placing them in a dedicated DMZ:
 
