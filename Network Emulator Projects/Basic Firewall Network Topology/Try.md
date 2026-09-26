@@ -229,7 +229,7 @@ end
 --- 
 
 ## Routing Configuration
-<img width="1031" height="529" alt="image" src="https://github.com/user-attachments/assets/a2c9adc6-5d7c-43c3-be6d-6d4b1798ed7a" />
+<img width="820" height="428" alt="image" src="https://github.com/user-attachments/assets/7e74398c-d526-4aad-b495-5f2a3a6f797b" />
 
 
 ### OSPF (Single Area)
