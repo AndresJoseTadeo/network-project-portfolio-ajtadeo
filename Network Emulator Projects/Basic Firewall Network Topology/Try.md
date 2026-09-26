@@ -233,7 +233,7 @@ end
 
 
 ### OSPF (Single Area)
-1. Router1
+#### 1. Router1
 ```cisco
 enable
 configure terminal
@@ -242,7 +242,7 @@ router ospf 1
 	network 192.168.10.0 0.0.0.255 area 0
 	network 10.10.10.0 0.0.0.3 area 0
 ```
-2. Router2
+#### 2. Router2
 ```cisco
 enable
 configure terminal
@@ -251,7 +251,7 @@ router ospf 1
 	network 192.168.20.0 0.0.0.255 area 0
 	network 10.10.20.0 0.0.0.3 area 0
 ```
-3. Router_DMZ
+#### 3. Router_DMZ
 ```cisco
 enable
 configure terminal
@@ -261,7 +261,7 @@ router ospf 1
 	network 10.10.100.0 0.0.0.3 area 0
 ```
 
-4. FortiGate
+#### 4. FortiGate
 ```cisco
 config router ospf
     set default-information-originate always
@@ -302,11 +302,66 @@ config router ospf
     end
 ```
 
-#### Static
+### Static Routing (Towards WAN)
+
+#### FortiGate
+<img width="526" height="406" alt="image" src="https://github.com/user-attachments/assets/5238e52c-1acb-4495-baf2-ad2c43c59519" />
 
 
-### DHCP Configuration
+### Routing Table Verification
+<img width="1078" height="706" alt="image" src="https://github.com/user-attachments/assets/ad5aa489-f95b-44bf-9ce5-6799320e0afe" />
 
+--- 
+
+## DHCP Configuration
+<img width="716" height="671" alt="image" src="https://github.com/user-attachments/assets/b2038282-713d-4e19-a93a-d7a1952b72ff" />
+
+
+### DHCP Server
+#### Fortigate
+```cisco
+    edit 2
+        set dns-service default
+        set default-gateway 192.168.10.1
+        set netmask 255.255.255.0
+        set interface "port2"
+        config ip-range
+            edit 1
+                set start-ip 192.168.10.10
+                set end-ip 192.168.10.254
+            next
+        end
+    next
+    edit 3
+        set dns-service default
+        set default-gateway 192.168.20.1
+        set netmask 255.255.255.0
+        set interface "port3"
+        config ip-range
+            edit 1
+                set start-ip 192.168.20.10
+                set end-ip 192.168.20.254
+            next
+        end
+```
+
+### DHCP Relay Agents
+#### Router1
+```cisco
+enable
+configure terminal
+int e0/0
+	ip helper-address 10.10.10.2
+end
+```
+#### Router2
+```cisco
+enable
+configure terminal
+int e0/0
+	ip helper-address 10.10.10.2
+end
+```
 
 ### Firewall Policies
 
