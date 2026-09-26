@@ -99,108 +99,11 @@ This network connection allows me to access the Firewall's GUI and make configur
 
 ---
 
-
-## Initial Device Configuration
-
-<details>
-  <summary> Switch Configuration </summary>
-
-### Switch1
-```cisco
-enable
-configure terminal
-hostname Switch1
-end
-```
-
-### Switch 2
-```cisco
-enable
-configure terminal
-hostname Switch2
-end
-```
-
-### Switch DMZ
-```cisco
-enable
-configure terminal
-hostname Switch_DMZ
-end
-```
-</details>
-
-<details>
-  <summary> Router Interface Configuration </summary>
-
-### Router1
-```cisco
-enable
-configure terminal
-hostname Router1
-int e0/0
-  description LAN1_Gateway
-	no shutdown
-	ip address 192.168.10.1 255.255.255.0
-int e0/1
-  description LAN1_To_FortiGate
-	no shutdown 
-	ip address 10.10.10.1 255.255.255.252
-end
-```
-
-### Router2
-```cisco
-enable
-configure terminal
-hostname Router2
-int e0/0
-  description LAN2_Gateway
-	no shutdown
-	ip address 192.168.20.1 255.255.255.0
-int e0/1
-  description LAN2_To_FortiGate
-	no shutdown 
-	ip address 10.10.20.1 255.255.255.252
-end
-```
-
-
-### Router_DMZ
-```cisco
-enable
-configure terminal
-hostname Router_DMZ
-int e0/0
-  description DMZ_Gateway
-	no shutdown
-	ip address 172.16.100.1 255.255.255.240
-int e0/1
-  description DMZ_To_FortiGate
-	no shutdown 
-	ip address 10.10.100.1 255.255.255.252
-```
-
-### Internet (Router)
-```cisco
-enable
-configure terminal
-hostname INTERNET
-int e0/0
-  description WAN_To_FortiGate
-	no shutdown
-	ip address 100.1.1.2 255.255.255.252
-int loopback 0
-  description Simulated_Internet
-  ip address 8.8.8.8 255.255.255.255
-```
-</details>
-
----
-
-## FortiGate Initial Configuration
+## Initial Firewall Configuration
 
 I'm using FortiGate's `port1` as the management interface, connected to the emulator's Cloud0 interface, which provides connectivity to the VMware virtual network. This allows me to access the FortiGate GUI from my PC for initial configuration.
+
+<img width="711" height="445" alt="image" src="https://github.com/user-attachments/assets/1a46c42c-9386-436f-8fba-a1b533199b54" />
 
 ### Configuration : 
 ```cisco
@@ -234,23 +137,131 @@ end
 
 <br>
 
-This web-based platform makes it easier to create, edit, and manage firewall security rules, internet access controls, and routing policies through a visual interface, making network configuration and monitoring more straightforward without having to memorize a lot of command-line syntax while also helping reduce configuration errors.
+This web-based platform makes it easier to create, edit, and manage firewall security rules, internet access controls, and routing policies through a visual interface. 
+
+<br>
+It makes network configuration and monitoring more straightforward since you don't have to memorize a lot of command-line syntax, while also helping reduce configuration errors.
 
 
-### FortiGate Interface Configuration
+## Initial Device Configuration (Hostname, IP Addressing, Routing)
+This section covers the initial device setup, including hostnames, IP addressing, and routing configuration. You can view the configuration details by expanding the summary section
+
+### *Internal Network*
+
+### LAN 1:
+
+### Switch 1
+```cisco
+enable
+config terminal
+hostname Switch1
+```
+
+### Router1
+```cisco
+enable
+config terminal
+hostname Router1
+int e0/0
+	no shutdown
+	ip address 192.168.10.1 255.255.255.0
+	ip helper-address 10.10.10.2
+int e0/1
+	no shutdown 
+	ip address 10.10.10.1 255.255.255.252
+	ip ospf 1 area 0
+exit
+router ospf 1
+	router-id 10.255.255.1
+	network 192.168.10.0 0.0.0.255 area 0
+```
+
+### LAN 2:
+
+### Switch 2
+```cisco
+enable
+config terminal
+hostname Switch2
+```
+
+### Router2
+```cisco
+enable
+config terminal
+hostname Router2
+int e0/0
+	no shutdown
+	ip address 192.168.20.1 255.255.255.0
+	ip helper-address 10.10.20.2
+int e0/1
+	no shutdown 
+	ip address 10.10.20.1 255.255.255.252
+	ip ospf 1 area 0
+exit
+router ospf 1 
+	router-id 10.255.255.2
+	network 192.168.20.0 0.0.0.255 area 0
+```
+</details>
+
+<details>
+
+
+<summary>DMZ Network</summary>
+
+### Switch_DMZ
+```cisco
+enable
+config terminal
+hostname Switch_DMZ
+```
+
+### Router1
+```cisco
+Router_DMZ
+enable
+config terminal
+hostname Router_DMZ
+int e0/0
+	no shutdown
+	ip address 172.16.100.1 255.255.255.240
+int e0/1
+	no shutdown 
+	ip address 10.10.100.1 255.255.255.252
+	ip ospf 1 area 0
+exit
+router ospf 1 
+	router-id 10.255.255.4
+	network 172.16.100.0 0.0.0.15 area 0
+```
+</details>
+
+
 
 <details>
 	
-<summary> Configuration </summary>
+<summary>FortiGate Firewall</summary>
 
+&nbsp;
 ```cisco
-Note: I configured these settings through the FortiGate's GUI.
+Note: I configured these settings through the FortiGate GUI dashboard.
 I obtained the CLI commands shown below afterward by using the show commands to document my configuration.
 ```
 
-```cisco
+### Global Config:
+```
+config system global
+    set admintimeout 30
+    set alias "FortiGate-VM64-KVM"
+    set hostname "FortiGate"
+    set timezone 04
+end
+```
 
-# Management Port
+### Interfaces:
+
+```cisco
 config system interface
     edit "port1"
         set vdom "root"
@@ -259,8 +270,6 @@ config system interface
         set type physical
         set snmp-index 1
     next
-
-# Port to LAN-1
     edit "port2"
         set vdom "root"
         set ip 10.10.10.2 255.255.255.252
@@ -272,8 +281,6 @@ config system interface
         set role lan
         set snmp-index 2
     next
-
-# Port to LAN-2
     edit "port3"
         set vdom "root"
         set ip 10.10.20.2 255.255.255.252
@@ -285,8 +292,6 @@ config system interface
         set role lan
         set snmp-index 3
     next
-
-# Port to DMZ with Administrative access disabled
     edit "port4"
         set vdom "root"
         set ip 10.10.100.2 255.255.255.252
@@ -295,51 +300,22 @@ config system interface
         set role dmz
         set snmp-index 4
     next
-
-# Port to WAN with Administrative access disabled
     edit "port5"
         set vdom "root"
         set ip 100.1.1.1 255.255.255.252
+        set allowaccess ping 
         set type physical
         set alias "WAN-PORT"
         set lldp-reception enable
         set role wan
         set snmp-index 9
-    end
-```
-</details>
-
----
-
-## Routing Configuration
-<details>
-<summary> OSPF </summary>  
-  
-### Router1
-```cisco
-router ospf 1
-	router-id 10.255.255.1
-  network 10.10.10.0 0.0.0.3
-	network 192.168.10.0 0.0.0.255 area 0
+        config ipv6
+            set ip6-send-adv enable
+            set ip6-other-flag enable
+        end
 ```
 
-### Router2
-```cisco
-router ospf 1
-	router-id 10.255.255.2
-  network 10.10.20.0 0.0.0.3
-	network 192.168.10.0 0.0.0.255 area 0
-```
-
-### Router_DMZ
-```cisco
-router ospf 1 
-	router-id 10.255.255.4
-  network 10.10.100.0 0.0.0.3
-	network 172.16.100.0 0.0.0.15 area 0
-```
-
-### FortiGate
+### OSPF (Internal Network - DMZ Communication)
 ```cisco
 config router ospf
     set default-information-originate always
@@ -378,14 +354,15 @@ config router ospf
         set status enable
         set metric-type 1
     end  
+    config redistribute "rip"
+    end
+    config redistribute "bgp"
+    end
+    config redistribute "isis"
+    end
+end
 ```
-</details>
-
-
-<details>
-<summary> Static Routing </summary>
-
-### Fortigate
+### Static Routing (To WAN)
 ```cisco
 config router static
     edit 1
@@ -393,15 +370,72 @@ config router static
         set device "port5"
     next
 end
+
 ```
 </details>
 
-## DHCP Configuration
-<img width="873" height="672" alt="image" src="https://github.com/user-attachments/assets/6722faeb-68d7-4ea8-bb41-55fce8ab5466" />
-
-### FortiGate
+<details>
+<summary>External Network</summary>
+	
+### INTERNET
 ```cisco
-  config system dhcp server
+enable
+conf terminal
+hostname INTERNET
+int e0/0
+	no shutdown
+	ip address 100.1.1.2 255.255.255.252
+int loopback 0
+	no shutdown
+	ip address 8.8.8.8 255.255.255.255
+do wr
+```
+
+</details>
+
+
+## Project Requirements
+
+### 1. Communication Between LAN 1 and LAN 2
+
+The first requirement is to allow communication between the two internal LANs.
+
+<img width="972" height="949" alt="image" src="https://github.com/user-attachments/assets/6fe4b782-4cf9-4410-b3ae-0717b8a5db7b" />
+
+&nbsp;
+
+I configured the network so that devices in LAN 1 can communicate with devices in LAN 2 and vice versa.
+
+<img width="2000" height="677" alt="image" src="https://github.com/user-attachments/assets/40a3c44c-59c4-4fa0-b4e8-62f472d8f531" />
+
+&nbsp;
+
+<img width="1920" height="920" alt="image" src="https://github.com/user-attachments/assets/815cbb63-1527-4d15-a501-11812f9984b0" />
+
+
+### 2. DHCP for the Internal Networks
+
+* Brief description
+
+Firewall interface configuration
+<details>
+	
+```cisco
+	config system dhcp server
+    edit 1
+        set ntp-service local
+        set default-gateway 10.255.1.1
+        set netmask 255.255.255.0
+        set interface "fortilink"
+        config ip-range
+            edit 1
+                set start-ip 10.255.1.2
+                set end-ip 10.255.1.254
+            next
+        end
+        set vci-match enable
+        set vci-string "FortiSwitch" "FortiExtender"
+    next
     edit 2
         set dns-service default
         set default-gateway 192.168.10.1
@@ -428,51 +462,40 @@ end
     next
 ```
 
-Router1
-```cisco
-enable
-configure terminal
-interface e0/0
-  ip helper-address 10.10.10.2
-```
+</details>
+    
+  * DHCP relay agent configuration
 
-Router2
-```cisco
-enable
-configure terminal
-interface e0/0
-  ip helper-address 10.10.20.2
-```
+### 3. DMZ Network Segmentation
 
+* Brief description
+* **Configuration**
 
-## Firewall Policies
-### 1. LAN 1 ↔ LAN 2
-<img width="972" height="949" alt="image" src="https://github.com/user-attachments/assets/597663a8-3607-4875-b664-16d2036cecfa" />
+  * Firewall configuration
 
-Policy
+### 4. Internal Network to DMZ
 
-### 2. Internal Network → DMZ
+* Brief description
+* **Configuration**
 
-Policy
+### 5. Source NAT (SNAT)
 
-### 3. Internal Network → Internet
+* Brief description
+* **Configuration**
 
-SNAT
+### 6. Destination NAT (DNAT) and Virtual IPs
 
-### 4. Internet → DMZ
+* Brief description
+* **Configuration**
 
-DNAT w/ Port Forwarding
+## Testing
 
-
-## Testing and Verification
-   ### Connectivity
-   ### DHCP
-   ### Routing
-   ### SNAT
-   ### DNAT / SSH
-
+* Test results and verification
 
 ## Observations
 
+* Key observations
+
 ## Conclusion
 
+* Brief summary of the completed configuration and results
