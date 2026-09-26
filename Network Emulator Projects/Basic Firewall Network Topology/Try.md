@@ -382,8 +382,12 @@ end
 <img width="443" height="552" alt="image" src="https://github.com/user-attachments/assets/efa72d11-d8c5-439f-8f1f-ab009149b4c2" />
 <img width="461" height="553" alt="image" src="https://github.com/user-attachments/assets/2891bc42-74e0-4226-83b3-d172df920ad9" />
 
+#### Admin to Servers (SSH)
+<img width="759" height="518" alt="image" src="https://github.com/user-attachments/assets/f56ae9d6-a15e-494a-86a8-ea5892bac03f" />
+<img width="759" height="517" alt="image" src="https://github.com/user-attachments/assets/6e962c05-7b00-4489-8067-36c46b57f379" />
+<img width="761" height="518" alt="image" src="https://github.com/user-attachments/assets/566c487e-4d2d-4cef-b429-9718bd09c64a" />
 
-#### SNAT
+
 
 
 
