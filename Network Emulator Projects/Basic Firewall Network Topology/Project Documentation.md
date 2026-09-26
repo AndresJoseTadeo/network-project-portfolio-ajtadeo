@@ -421,6 +421,8 @@ I configured the network so that devices in LAN 1 can communicate with devices i
 
 Firewall interface configuration
 <details>
+	
+```cisco
 	config system dhcp server
     edit 1
         set ntp-service local
@@ -460,6 +462,8 @@ Firewall interface configuration
             next
         end
     next
+```
+
 </details>
     
   * DHCP relay agent configuration
