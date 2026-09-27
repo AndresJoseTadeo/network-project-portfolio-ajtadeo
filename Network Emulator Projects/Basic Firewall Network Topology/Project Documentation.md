@@ -21,8 +21,7 @@ The FortiGate acts as the central point for firewall policies, NAT, DHCP, and tr
 ---
 
 ## Network Topology
-
-<img width="1522" height="1080" alt="image" src="https://github.com/user-attachments/assets/18d0e70d-5a08-40e2-8706-8b5e8f519e48" />
+<img width="1646" height="1080" alt="image" src="https://github.com/user-attachments/assets/e6cbcbc3-ec7a-45dc-a4e3-72e698b924bf" />
 
 
 ### Internal Network
@@ -189,6 +188,10 @@ int loopback 0
 	no shutdown
 	description Simulated_Internet
 	ip address 8.8.8.8 255.255.255.255
+int e0/1
+	no shutdown
+	description To-Admin_out
+	ip address 11.11.11.2 255.255.255.252
 end
 ```
 
@@ -553,21 +556,65 @@ end
 
 ---
 
+## Administrator Access
+
+Two administrators were used to test access to the DMZ. The internal
+administrator connects to the DMZ servers from within the network, while
+the external administrator connects through the Internet.
+
+For lab purposes, I also used lightweight routers to simulate the administrator PCs.
+
+<img width="1646" height="1080" alt="image" src="https://github.com/user-attachments/assets/e3ff6751-a69c-4305-b2fe-1f4248a61ee7" />
+
+### Admin_in
+```cisco
+enable
+configure terminal
+int e0/0
+	description To_Switch1
+	no shutdown
+	ip address dhcp
+end
+```
+### Admin_out
+```cisco
+enable
+configure terminal
+int e0/0
+	description To_INTERNET
+	no shutdown
+	ip address 11.11.11.1 255.255.255.252
+end
+```
+
+--- 
+
 ## SSH Test
 SSH connectivity was tested from an external host to verify that the DNAT and firewall policies were working as expected. Each public port successfully forwarded the connection to its corresponding DMZ server.
 
-### Test 1: Internal to Servers (SSH)
+### Test 1: Internal-Network to Servers (SSH)
 
 
 
-### Test 2 :Outside to Servers (SSH)
+### Test 2 : Outside to Servers (SSH)
+
 ```cisco
 ssh -p 2221 -l admin 100.1.1.1
-ssh -p 2222 -l admin 100.1.1.1
-ssh -p 2223 -l admin 100.1.1.1
 ```
 <img width="759" height="518" alt="image" src="https://github.com/user-attachments/assets/f56ae9d6-a15e-494a-86a8-ea5892bac03f" />
+
+&nbsp;
+
+```cisco
+ssh -p 2222 -l admin 100.1.1.1
+```
 <img width="759" height="517" alt="image" src="https://github.com/user-attachments/assets/6e962c05-7b00-4489-8067-36c46b57f379" />
+
+&nbsp;
+
+```cisco
+ssh -p 2223 -l admin 100.1.1.1
+```
 <img width="761" height="518" alt="image" src="https://github.com/user-attachments/assets/566c487e-4d2d-4cef-b429-9718bd09c64a" />
 
 
