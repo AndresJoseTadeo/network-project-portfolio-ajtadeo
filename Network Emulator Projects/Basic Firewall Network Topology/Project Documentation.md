@@ -363,25 +363,47 @@ int e0/0
 	ip helper-address 10.10.10.2
 end
 ```
+---
 
-### Firewall Policies
+## Firewall Policies
+I’ve configured the network to allow communication between the internal networks, provide Internet access, and expose the required services within the DMZ.
 
-#### Internatl-Network 
+The FortiGate firewall policies control how this traffic is allowed between the internal networks, the Internet, and the DMZ. Policies are processed from top to bottom.
+
+<img width="1331" height="340" alt="image" src="https://github.com/user-attachments/assets/d76b6ca9-50d2-4070-bd76-c5c98ca40861" />
+
+
+
+### Policy 1: Internal-Network
+
+This policy allows traffic between the two internal networks through
+port2 and port3.
+
 <img width="997" height="967" alt="image" src="https://github.com/user-attachments/assets/6806b9a9-70ed-4915-af34-5770fe7111ed" />
-<img width="998" height="973" alt="image" src="https://github.com/user-attachments/assets/6bf0c070-4c34-4268-b48d-3d44c87296f3" />
+
+### Policy 2: Internal-To-Outside
+
+This policy allows the internal networks to access the Internet through
+the WAN interface. NAT is enabled for outbound traffic.
+
+#### Internal Network to DMZ
+#### Internal Network to Outside via SNAT
+#### Outside to DMZ via DNAT / Port Forwarding
+
+
 <img width="995" height="955" alt="image" src="https://github.com/user-attachments/assets/c4db9d5c-091e-4aa2-9083-cfc3f517b09e" />
 <img width="994" height="954" alt="image" src="https://github.com/user-attachments/assets/115cd7c6-ef84-4fdd-9d2d-9900bbcf2fba" />
 <img width="997" height="953" alt="image" src="https://github.com/user-attachments/assets/f7ad5064-ea10-4b54-94ea-0e426ae1a8b7" />
 
 
 
-#### DNAT / Port Forwarding
 <img width="1217" height="157" alt="image" src="https://github.com/user-attachments/assets/77bf27bf-6e8c-480d-87de-724926c0648f" />
 
 <img width="465" height="558" alt="image" src="https://github.com/user-attachments/assets/062f851e-d927-4e95-a754-3f08e325c6eb" />
 <img width="443" height="552" alt="image" src="https://github.com/user-attachments/assets/efa72d11-d8c5-439f-8f1f-ab009149b4c2" />
 <img width="461" height="553" alt="image" src="https://github.com/user-attachments/assets/2891bc42-74e0-4226-83b3-d172df920ad9" />
 
+SSH Test
 #### Admin to Servers (SSH)
 <img width="759" height="518" alt="image" src="https://github.com/user-attachments/assets/f56ae9d6-a15e-494a-86a8-ea5892bac03f" />
 <img width="759" height="517" alt="image" src="https://github.com/user-attachments/assets/6e962c05-7b00-4489-8067-36c46b57f379" />
