@@ -469,6 +469,12 @@ SSH was configured on the routers to simulate remote access to the servers.
 SSH version 2 was enabled with a local admin account and RSA keys, while the
 VTY lines were configured to accept SSH connections.
 
+| Server | username | secret (login) | secret (privileged EXEC) |
+|:---:|:---:|:---:|:---:|
+| SRVR1 | admin | password123 | password123 |
+| SRVR2 | admin | password123 | password123 |
+| SRVR3 | admin | password123 | password123 |
+
 ### Configuration
 
 #### Server 1: 
@@ -513,7 +519,6 @@ ip route 0.0.0.0 0.0.0.0 172.16.100.1
 
 
 !!!! SSH CONFIG
-configure terminal
 enable secret password123
 username admin secret password123
 ip domain-name company.dmz
@@ -541,7 +546,6 @@ ip route 0.0.0.0 0.0.0.0 172.16.100.1
 
 
 !!!! SSH CONFIG
-configure terminal
 enable secret password123
 username admin secret password123
 ip domain-name company.dmz
@@ -595,32 +599,57 @@ end
 SSH connectivity was tested from an external host to verify that the DNAT and firewall policies were working as expected. Each public port successfully forwarded the connection to its corresponding DMZ server.
 
 ### Test 1: Internal-Network to Servers (SSH)
+```cisco
+ssh -l admin 172.16.100.5
+```
+<img width="762" height="518" alt="image" src="https://github.com/user-attachments/assets/a2e3feda-0004-4613-b378-fcca58d5c11c" />
 
+&nbsp;
 
+```cisco
+ssh -l admin 172.16.100.6
+```
+<img width="764" height="518" alt="image" src="https://github.com/user-attachments/assets/8fa754e3-e3ac-4e93-a629-791ddec3d3c6" />
+
+&nbsp;
+
+```cisco
+ssh -l admin 172.16.100.7
+```
+<img width="763" height="517" alt="image" src="https://github.com/user-attachments/assets/8ce42175-ded5-4870-bf27-6813acd856c5" />
+
+&nbsp;
 
 ### Test 2 : Outside to Servers (SSH)
 
 ```cisco
 ssh -p 2221 -l admin 100.1.1.1
 ```
-<img width="759" height="518" alt="image" src="https://github.com/user-attachments/assets/f56ae9d6-a15e-494a-86a8-ea5892bac03f" />
+<img width="762" height="518" alt="image" src="https://github.com/user-attachments/assets/b951eafe-e275-4c1d-ae03-a842eb4dab1c" />
+
 
 &nbsp;
 
 ```cisco
 ssh -p 2222 -l admin 100.1.1.1
 ```
-<img width="759" height="517" alt="image" src="https://github.com/user-attachments/assets/6e962c05-7b00-4489-8067-36c46b57f379" />
+<img width="762" height="522" alt="image" src="https://github.com/user-attachments/assets/970548a7-a7a9-4ae3-bb26-96a492c07697" />
+
 
 &nbsp;
 
 ```cisco
 ssh -p 2223 -l admin 100.1.1.1
 ```
-<img width="761" height="518" alt="image" src="https://github.com/user-attachments/assets/566c487e-4d2d-4cef-b429-9718bd09c64a" />
+<img width="760" height="513" alt="image" src="https://github.com/user-attachments/assets/78cca295-5846-4fda-a023-e6b5bc37bddb" />
 
+---
 
+## Observations
 
+---
+
+## Conclusion
 
 
 
