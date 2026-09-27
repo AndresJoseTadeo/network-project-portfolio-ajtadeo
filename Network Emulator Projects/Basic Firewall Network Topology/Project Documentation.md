@@ -282,6 +282,7 @@ config router ospf
         next
         edit "OSPF-Port4-DMZ"
             set interface "port4"
+			set prefix-length 30
         next
     end
     config network
