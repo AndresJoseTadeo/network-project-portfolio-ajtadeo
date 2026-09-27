@@ -21,7 +21,7 @@ The FortiGate acts as the central point for firewall policies, NAT, DHCP, and tr
 ---
 
 ## Network Topology
-<img width="1646" height="1080" alt="image" src="https://github.com/user-attachments/assets/e6cbcbc3-ec7a-45dc-a4e3-72e698b924bf" />
+<img width="1602" height="1080" alt="image" src="https://github.com/user-attachments/assets/7104d22f-0ee7-49ab-af5c-990cb63285da" />
 
 
 ### Internal Network
@@ -378,7 +378,7 @@ The FortiGate firewall policies control how this traffic is allowed between the 
 
 ### Policy 1: Internal-Network
 
-This policy allows traffic between the two internal networks through
+This policy allows traffic between the two internal LANs through
 port2 and port3.
 
 <img width="997" height="967" alt="image" src="https://github.com/user-attachments/assets/6806b9a9-70ed-4915-af34-5770fe7111ed" />
