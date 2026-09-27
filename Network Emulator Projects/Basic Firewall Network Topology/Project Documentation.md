@@ -570,6 +570,7 @@ For lab purposes, I also used lightweight routers to simulate the administrator 
 ```cisco
 enable
 configure terminal
+hostname Admin_in
 int e0/0
 	description To_Switch1
 	no shutdown
@@ -580,6 +581,7 @@ end
 ```cisco
 enable
 configure terminal
+hostname Admin_out
 int e0/0
 	description To_INTERNET
 	no shutdown
