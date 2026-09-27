@@ -596,7 +596,7 @@ end
 --- 
 
 ## SSH Test
-SSH connectivity was tested from an external host to verify that the DNAT and firewall policies were working as expected. Each public port successfully forwarded the connection to its corresponding DMZ server.
+SSH connectivity was tested from both an internal network administrator and an external administrator to verify that the firewall policies and DNAT were working as expected. The internal administrator connected directly to the DMZ servers, while the external administrator accessed them through the configured public ports.
 
 ### Test 1: Internal-Network to Servers (SSH)
 ```cisco
