@@ -444,9 +444,128 @@ port `22`.
 The implicit deny rule blocks traffic that does not match any of the
 explicit firewall policies above.
 
+--- 
 
-### SSH Test
-#### Admin to Servers (SSH)
+
+## DMZ Servers Configuration
+
+For the DMZ servers, I used routers to represent the servers in
+the lab environment. This keeps the setup simple while still allowing basic
+connectivity and remote-access testing, such as ping and SSH.
+
+Each simulated server was assigned a static IP address in the DMZ and a
+default route pointing to the FortiGate.
+
+| Server | IP Address | Default Gateway |
+|:---:|:---:|:---:|
+| SRVR1 | 172.16.100.5/28 | 172.16.100.1 |
+| SRVR2 | 172.16.100.6/28 | 172.16.100.1 |
+| SRVR3 | 172.16.100.7/28 | 172.16.100.1 |
+
+SSH was configured on the routers to simulate remote access to the servers.
+SSH version 2 was enabled with a local admin account and RSA keys, while the
+VTY lines were configured to accept SSH connections.
+
+### Configuration
+
+#### Server 1: 
+```cisco
+!!!! INITIAL CONFIG
+enable
+config terminal
+hostname SRVR1
+int e0/0
+	description To-Switch_DMZ
+	no shutdown
+	ip address 172.16.100.5 255.255.255.240
+exit
+ip route 0.0.0.0 0.0.0.0 172.16.100.1
+
+
+!!!! SSH CONFIG
+enable secret password123
+username admin secret password123
+ip domain-name company.dmz
+crypto key generate rsa general-keys modulus 2048
+ip ssh version 2
+line vty 0 4
+	transport input ssh
+	login local
+	logging synchronous
+end
+```
+
+#### Server 2: 
+```cisco
+!!!! INITIAL CONFIG
+enable
+config terminal
+hostname SRVR2
+int e0/0
+	description To-Switch_DMZ
+	no shutdown
+	ip address 172.16.100.6 255.255.255.240
+exit
+ip route 0.0.0.0 0.0.0.0 172.16.100.1
+
+
+!!!! SSH CONFIG
+configure terminal
+enable secret password123
+username admin secret password123
+ip domain-name company.dmz
+crypto key generate rsa general-keys modulus 2048
+ip ssh version 2
+line vty 0 4
+	transport input ssh
+	login local
+	logging synchronous
+end
+```
+
+#### Server 3: 
+```cisco
+!!!! INITIAL CONFIG
+enable
+config terminal
+hostname SRVR3
+int e0/0
+	description To-Switch_DMZ
+	no shutdown
+	ip address 172.16.100.7 255.255.255.240
+exit
+ip route 0.0.0.0 0.0.0.0 172.16.100.1
+
+
+!!!! SSH CONFIG
+configure terminal
+enable secret password123
+username admin secret password123
+ip domain-name company.dmz
+crypto key generate rsa general-keys modulus 2048
+ip ssh version 2
+line vty 0 4
+	transport input ssh
+	login local
+	logging synchronous
+end
+```
+
+---
+
+## SSH Test
+SSH connectivity was tested from an external host to verify that the DNAT and firewall policies were working as expected. Each public port successfully forwarded the connection to its corresponding DMZ server.
+
+### Test 1: Internal to Servers (SSH)
+
+
+
+### Test 2 :Outside to Servers (SSH)
+```cisco
+ssh -p 2221 -l admin 100.1.1.1
+ssh -p 2222 -l admin 100.1.1.1
+ssh -p 2223 -l admin 100.1.1.1
+```
 <img width="759" height="518" alt="image" src="https://github.com/user-attachments/assets/f56ae9d6-a15e-494a-86a8-ea5892bac03f" />
 <img width="759" height="517" alt="image" src="https://github.com/user-attachments/assets/6e962c05-7b00-4489-8067-36c46b57f379" />
 <img width="761" height="518" alt="image" src="https://github.com/user-attachments/assets/566c487e-4d2d-4cef-b429-9718bd09c64a" />
