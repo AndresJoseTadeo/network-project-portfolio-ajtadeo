@@ -372,10 +372,6 @@ The FortiGate firewall policies control how this traffic is allowed between the 
 
 <img width="1331" height="340" alt="image" src="https://github.com/user-attachments/assets/d76b6ca9-50d2-4070-bd76-c5c98ca40861" />
 
-The VIPs handle the DNAT for the DMZ servers. Each one forwards a specific public port on the FortiGate to the private IP and SSH port of the corresponding server, allowing external access while keeping the servers' private IP addresses hidden.
-
-<img width="1217" height="157" alt="image" src="https://github.com/user-attachments/assets/0022e976-ec3e-42f7-8e90-bb25c334424c" />
-
 
 ### Policy 1: Internal-Network
 
@@ -397,6 +393,14 @@ This policy allows the internal networks to access the Internet through the WAN 
 
 <img width="1016" height="929" alt="image" src="https://github.com/user-attachments/assets/624dd57b-e938-4fa7-b5ae-7ad93fc1e2c5" />
 
+---
+### Virtual IP 
+The VIPs handle the DNAT for the DMZ servers. Each one forwards a specific public port on the FortiGate to the private IP and SSH port of the corresponding server, allowing external access while keeping the servers' private IP addresses hidden.
+
+<img width="1217" height="157" alt="image" src="https://github.com/user-attachments/assets/0022e976-ec3e-42f7-8e90-bb25c334424c" />
+
+---
+
 
 ### Policy 4: Outside-To-SRVR1
 
@@ -408,7 +412,6 @@ port `22`.
 
 #### DNAT Configuration: 
 <img width="465" height="558" alt="image" src="https://github.com/user-attachments/assets/a4767ad6-f239-475d-ab4d-0dfe2e52bd04" />
-
 
 
 ### Policy 5: Outside-To-SRVR2
