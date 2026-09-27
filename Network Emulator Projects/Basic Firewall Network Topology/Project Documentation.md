@@ -1,3 +1,4 @@
+<img width="1920" height="1080" alt="1" src="https://github.com/user-attachments/assets/6d8be1c2-607f-4065-9d11-84edc0239025" />
 
 # Basic Firewall Network Topology (WORK IN PROGRESS)
 
