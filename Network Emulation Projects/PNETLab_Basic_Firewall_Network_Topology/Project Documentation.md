@@ -101,7 +101,8 @@ This network connection allows me to access the Firewall's GUI and make configur
 
 ## Initial Configuration
 
-### Switches
+### Switches:
+
 #### 1. Switch1
 ```cisco
 enable
@@ -126,7 +127,8 @@ hostname Switch_DMZ
 end
 ```
 
-### Routers
+### Routers:
+
 #### 1. Router1
 ```cisco
 enable
@@ -235,7 +237,7 @@ end
 <img width="820" height="428" alt="image" src="https://github.com/user-attachments/assets/7e74398c-d526-4aad-b495-5f2a3a6f797b" />
 
 
-### OSPF (Single Area)
+### a. OSPF (Single Area)
 #### 1. Router1
 ```cisco
 enable
@@ -306,7 +308,7 @@ config router ospf
     end
 ```
 
-### Static Routing (Towards WAN)
+### b. Default Route (Towards WAN)
 
 #### FortiGate
 <img width="526" height="406" alt="image" src="https://github.com/user-attachments/assets/5238e52c-1acb-4495-baf2-ad2c43c59519" />
@@ -367,88 +369,6 @@ int e0/0
 end
 ```
 ---
-
-## Firewall Policies
-I’ve configured the network to allow communication between the internal networks, provide Internet access, and expose the required services within the DMZ.
-
-The FortiGate firewall policies control how this traffic is allowed between the internal networks, the Internet, and the DMZ. Policies are processed from top to bottom.
-
-<img width="1331" height="340" alt="image" src="https://github.com/user-attachments/assets/d76b6ca9-50d2-4070-bd76-c5c98ca40861" />
-
-
-### Policy 1: Internal-Network
-
-This policy allows traffic between the two internal LANs through
-port2 and port3.
-
-<img width="997" height="967" alt="image" src="https://github.com/user-attachments/assets/6806b9a9-70ed-4915-af34-5770fe7111ed" />
-
-### Policy 2: Internal Network to DMZ
-
-This policy allows devices on the internal network to connect to the DMZ servers when needed. Only connections initiated by the internal network are allowed, while the DMZ servers cannot initiate connections back to the internal network.
-
-<img width="996" height="963" alt="image" src="https://github.com/user-attachments/assets/b16b7e1f-defa-4b88-aea0-c924edae8264" />
-
-
-### Policy 3: Internal-To-Outside
-
-This policy allows the internal networks to access the Internet through the WAN interface. NAT is enabled for outbound traffic.
-
-<img width="1016" height="929" alt="image" src="https://github.com/user-attachments/assets/624dd57b-e938-4fa7-b5ae-7ad93fc1e2c5" />
-
----
-### Virtual IP 
-The VIPs handle the DNAT for the DMZ servers. Each one forwards a specific public port on the FortiGate to the private IP and SSH port of the corresponding server, allowing external access while keeping the servers' private IP addresses hidden.
-
-<img width="1217" height="157" alt="image" src="https://github.com/user-attachments/assets/0022e976-ec3e-42f7-8e90-bb25c334424c" />
-
----
-
-
-### Policy 4: Outside-To-SRVR1
-
-This policy allows external SSH access to SRVR1 through public port
-`2221`. The DNAT configuration forwards the connection to SRVR1 on
-port `22`.
-
-<img width="995" height="955" alt="image" src="https://github.com/user-attachments/assets/ec41316c-12f4-4092-8a0e-dc452a1de9a3" />
-
-#### DNAT Configuration: 
-<img width="465" height="558" alt="image" src="https://github.com/user-attachments/assets/a4767ad6-f239-475d-ab4d-0dfe2e52bd04" />
-
-
-### Policy 5: Outside-To-SRVR2
-
-This policy allows external SSH access to SRVR2 through public port
-`2222`. The DNAT configuration forwards the connection to SRVR2 on
-port `22`.
-
-<img width="994" height="954" alt="image" src="https://github.com/user-attachments/assets/5403419d-7bad-4aa6-902a-75d48cda940e" />
-
-
-#### DNAT Configuration: 
-<img width="443" height="552" alt="image" src="https://github.com/user-attachments/assets/d95dc702-adda-468d-9de6-8a74cb916232" />
-
-
-### Policy 6: Outside-To-SRVR3
-
-This policy allows external SSH access to SRVR3 through public port
-`2223`. The DNAT configuration forwards the connection to SRVR3 on
-port `22`.
-
-<img width="997" height="953" alt="image" src="https://github.com/user-attachments/assets/79c017de-87ee-42d2-9c30-283fe466deb9" />
-
-#### DNAT Configuration: 
-<img width="461" height="553" alt="image" src="https://github.com/user-attachments/assets/8f50410a-6d78-44ee-9b51-de0b918b046f" />
-
-
-### Policy 7: Implicit Deny
-
-The implicit deny rule blocks traffic that does not match any of the
-explicit firewall policies above.
-
---- 
-
 
 ## DMZ Servers Configuration
 
@@ -595,10 +515,106 @@ end
 
 --- 
 
+## Firewall Policies
+I’ve configured the network to allow communication between the internal networks, provide Internet access, and expose the required services within the DMZ.
+
+The FortiGate firewall policies control how this traffic is allowed between the internal networks, the Internet, and the DMZ. Policies are processed from top to bottom.
+
+<img width="1331" height="340" alt="image" src="https://github.com/user-attachments/assets/d76b6ca9-50d2-4070-bd76-c5c98ca40861" />
+
+
+### Policy 1: Internal-Network
+
+This policy allows traffic between the two internal LANs through
+port2 and port3.
+
+<img width="997" height="967" alt="image" src="https://github.com/user-attachments/assets/6806b9a9-70ed-4915-af34-5770fe7111ed" />
+
+#### Test: PC-1 to PC-3 Connectivity
+
+<img width="1526" height="521" alt="image" src="https://github.com/user-attachments/assets/499750e4-6e09-466a-a88d-8dbac785eb6b" />
+
+
+### Policy 2: Internal Network to DMZ
+
+This policy allows devices on the internal network to connect to the DMZ servers when needed. Only connections initiated by the internal network are allowed, while the DMZ servers cannot initiate connections back to the internal network.
+
+<img width="996" height="963" alt="image" src="https://github.com/user-attachments/assets/b16b7e1f-defa-4b88-aea0-c924edae8264" />
+
+#### Test: Internal-to-DMZ Connectivity
+
+<img width="1525" height="515" alt="image" src="https://github.com/user-attachments/assets/9310a41f-6f10-48e3-a42e-1d25cb132cb2" />
+
+#### Test: DMZ-to-Internal Connectivity
+
+<img width="1527" height="514" alt="image" src="https://github.com/user-attachments/assets/1a9c8895-a852-43b4-8e85-b1f595417960" />
+
+### Policy 3: Internal-To-Outside
+
+This policy allows the internal networks to access the Internet through the WAN interface. NAT is enabled for outbound traffic.
+
+<img width="1016" height="929" alt="image" src="https://github.com/user-attachments/assets/624dd57b-e938-4fa7-b5ae-7ad93fc1e2c5" />
+
+#### Test: Internal-to-Internet Connectivity
+<img width="758" height="520" alt="image" src="https://github.com/user-attachments/assets/e897ca2f-2b29-41bd-bc44-0c888944bbf8" />
+
+---
+### Virtual IP 
+The VIPs handle the DNAT for the DMZ servers. Each one forwards a specific public port on the FortiGate to the private IP and SSH port of the corresponding server, allowing external access while keeping the servers' private IP addresses hidden.
+
+<img width="1217" height="157" alt="image" src="https://github.com/user-attachments/assets/0022e976-ec3e-42f7-8e90-bb25c334424c" />
+
+---
+
+
+### Policy 4: Outside-To-SRVR1
+
+This policy allows external SSH access to SRVR1 through public port
+`2221`. The DNAT configuration forwards the connection to SRVR1 on
+port `22`.
+
+<img width="995" height="955" alt="image" src="https://github.com/user-attachments/assets/ec41316c-12f4-4092-8a0e-dc452a1de9a3" />
+
+#### DNAT Configuration: 
+<img width="465" height="558" alt="image" src="https://github.com/user-attachments/assets/a4767ad6-f239-475d-ab4d-0dfe2e52bd04" />
+
+
+### Policy 5: Outside-To-SRVR2
+
+This policy allows external SSH access to SRVR2 through public port
+`2222`. The DNAT configuration forwards the connection to SRVR2 on
+port `22`.
+
+<img width="994" height="954" alt="image" src="https://github.com/user-attachments/assets/5403419d-7bad-4aa6-902a-75d48cda940e" />
+
+
+#### DNAT Configuration: 
+<img width="443" height="552" alt="image" src="https://github.com/user-attachments/assets/d95dc702-adda-468d-9de6-8a74cb916232" />
+
+
+### Policy 6: Outside-To-SRVR3
+
+This policy allows external SSH access to SRVR3 through public port
+`2223`. The DNAT configuration forwards the connection to SRVR3 on
+port `22`.
+
+<img width="997" height="953" alt="image" src="https://github.com/user-attachments/assets/79c017de-87ee-42d2-9c30-283fe466deb9" />
+
+#### DNAT Configuration: 
+<img width="461" height="553" alt="image" src="https://github.com/user-attachments/assets/8f50410a-6d78-44ee-9b51-de0b918b046f" />
+
+
+### Policy 7: Implicit Deny
+
+The implicit deny rule blocks traffic that does not match any of the
+explicit firewall policies above.
+
+--- 
+
 ## SSH Test
 SSH connectivity was tested from both an internal network administrator and an external administrator to verify that the firewall policies and DNAT were working as expected. The internal administrator connected directly to the DMZ servers, while the external administrator accessed them through the configured public ports.
 
-### Test 1: Internal-Network to Servers (SSH)
+### 1. Internal-Network to Servers (SSH)
 ```cisco
 ssh -l admin 172.16.100.5
 ```
@@ -620,7 +636,7 @@ ssh -l admin 172.16.100.7
 
 &nbsp;
 
-### Test 2 : Outside to Servers (SSH)
+### 2. Outside to Servers (SSH)
 
 ```cisco
 ssh -p 2221 -l admin 100.1.1.1
