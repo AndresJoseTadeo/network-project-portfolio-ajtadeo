@@ -20,6 +20,18 @@ The FortiGate acts as the central point for firewall policies, NAT, DHCP, and tr
 
 ---
 
+## Objectives
+
+- Configure a FortiGate firewall as the main security device
+- Build a segmented network with Internal, DMZ, and External networks
+- Configure routing and DHCP
+- Implement SNAT for outbound Internet access
+- Implement DNAT and port forwarding for DMZ services
+- Configure and test remote SSH access
+- Verify connectivity and firewall behavior
+
+---
+
 ## Network Topology
 <img width="1602" height="1080" alt="image" src="https://github.com/user-attachments/assets/7104d22f-0ee7-49ab-af5c-990cb63285da" />
 
