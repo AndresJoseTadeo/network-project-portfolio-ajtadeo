@@ -8,12 +8,13 @@ The projects explore different networking concepts, technologies, and lab enviro
 
 ---
 
-### Project 1: Dual-Site Enterprise Network
+## Project 1: Dual-Site Enterprise Network
 **Platform:** Cisco Packet Tracer
 
-[View Project on GitHub](...)
+[View Project on GitHub](https://github.com/AndresJoseTadeo/network-project-portfolio-ajtadeo/tree/main/Packet%20Tracer%20Projects/Dual-Site-Enterprise-Network)
 
-<img ... />
+<img width="2842" height="1865" alt="image" src="https://github.com/user-attachments/assets/6e664803-50c8-4ea6-a7d3-018caf55993d" />
+&nbsp;
 
 **Objectives:**
 
@@ -26,12 +27,13 @@ The projects explore different networking concepts, technologies, and lab enviro
 
 ---
 
-### Project 2: AAA Authentication
+## Project 2: AAA Authentication
 **Platform:** Cisco Packet Tracer
 
-[View Project on GitHub](...)
+[View Project on GitHub](https://github.com/AndresJoseTadeo/network-project-portfolio-ajtadeo/tree/main/Packet%20Tracer%20Projects/AAA%20Authentication)
 
-<img ... />
+<img width="1800" height="700" alt="image" src="https://github.com/user-attachments/assets/1171a7e4-da66-4c4d-961a-e15099aeeb9d" />
+&nbsp;
 
 **Objectives:**
 
@@ -43,12 +45,13 @@ The projects explore different networking concepts, technologies, and lab enviro
 
 ---
 
-### Project 3: Dual-ISP Failover
+## Project 3: Dual-ISP Failover
 **Platform:** GNS3
 
-[View Project on GitHub](...)
+[View Project on GitHub](https://github.com/AndresJoseTadeo/network-project-portfolio-ajtadeo/tree/main/Network%20Emulation%20Projects/GNS3_Dual_ISP_Failover)
 
-<img ... />
+<img width="2044" height="979" alt="image" src="https://github.com/user-attachments/assets/6bf0d643-862d-4714-b7f7-23120d68ebcd" />
+&nbsp;
 
 **Objectives:**
 
@@ -58,12 +61,13 @@ The projects explore different networking concepts, technologies, and lab enviro
 
 ---
 
-### Project 4: Basic Firewall Network Topology
+## Project 4: Basic Firewall Network Topology
 **Platform:** PNETLab
 
-[View Project on GitHub](...)
+[View Project on GitHub](https://github.com/AndresJoseTadeo/network-project-portfolio-ajtadeo/tree/main/Network%20Emulation%20Projects/PNETLab_Basic_Firewall_Network_Topology)
 
-<img ... />
+<img width="1602" height="1080" alt="image" src="https://github.com/user-attachments/assets/f16af3ff-7534-4d5d-8be8-af80ed727cbd" />
+&nbsp;
 
 **Objectives:**
 
