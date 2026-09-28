@@ -1,16 +1,19 @@
-# Network Configuration Project Portfolio
+# Networking Project Portfolio
 
-A portfolio of hands-on network configuration projects, showcasing enterprise network design, implementation, troubleshooting, configuration, and documentation.
+Hi, I'm Andres. This repository contains my hands-on networking projects, where I
+practice designing, configuring, troubleshooting, and documenting network
+environments using tools such as Cisco Packet Tracer, GNS3, PNETLab, and EVE-NG.
+
+The projects explore different networking concepts, technologies, and lab environments, with each project documenting the work and results.
 
 ---
 
-## Packet Tracer Projects
-
 ### Project 1: Dual-Site Enterprise Network
+**Platform:** Cisco Packet Tracer
 
-[View Project on GitHub](https://github.com/AndresJoseTadeo/network-project-portfolio-ajtadeo/tree/main/Packet%20Tracer%20Projects/Dual-Site-Enterprise-Network)
+[View Project on GitHub](...)
 
-<img width="2842" height="1865" alt="Network Topology" src="https://github.com/user-attachments/assets/943890d8-e286-4035-81db-a2447ec2e527" />
+<img ... />
 
 **Objectives:**
 
@@ -24,10 +27,11 @@ A portfolio of hands-on network configuration projects, showcasing enterprise ne
 ---
 
 ### Project 2: AAA Authentication
+**Platform:** Cisco Packet Tracer
 
-[View Project on GitHub](https://github.com/AndresJoseTadeo/network-project-portfolio-ajtadeo/tree/main/Packet%20Tracer%20Projects/AAA%20Authentication)
+[View Project on GitHub](...)
 
-<img width="1663" height="672" alt="Network Topology" src="https://github.com/user-attachments/assets/648491c8-7d77-4be9-a427-fb87febbc6ce" />
+<img ... />
 
 **Objectives:**
 
@@ -39,16 +43,34 @@ A portfolio of hands-on network configuration projects, showcasing enterprise ne
 
 ---
 
-## GNS3 Projects
+### Project 3: Dual-ISP Failover
+**Platform:** GNS3
 
-### Project 1: Dual-ISP Failover
+[View Project on GitHub](...)
 
-[View Project on GitHub](https://github.com/AndresJoseTadeo/network-project-portfolio-ajtadeo/tree/main/GNS3%20Projects/Dual%20ISP%20Failover)
-
-<img width="2044" height="979" alt="Network Topology" src="https://github.com/user-attachments/assets/ed186426-b5b5-4564-88f6-05d40f27cce3" />
+<img ... />
 
 **Objectives:**
 
 * Dual-ISP setup
 * Automatic failover
 * VLAN-based load distribution
+
+---
+
+### Project 4: Basic Firewall Network Topology
+**Platform:** PNETLab
+
+[View Project on GitHub](...)
+
+<img ... />
+
+**Objectives:**
+
+* Design and configure a segmented network using a FortiGate firewall
+* Implement routing, DHCP, and firewall policies
+* Configure SNAT for outbound Internet access
+* Configure DNAT and port forwarding for external access to DMZ servers
+* Implement DMZ segmentation and controlled access between network zones
+* Configure and test remote SSH access
+* Verify connectivity and firewall behavior through practical testing
