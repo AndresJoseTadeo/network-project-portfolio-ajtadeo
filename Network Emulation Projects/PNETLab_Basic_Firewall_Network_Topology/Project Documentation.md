@@ -1,4 +1,4 @@
-# Basic Firewall Network Topology (WORK IN PROGRESS)
+# Basic Firewall Network Topology 
 
 ## Project Overview
 
@@ -100,8 +100,10 @@ This network connection allows me to access the Firewall's GUI and make configur
 
 
 ## Initial Configuration
+This section covers the basic configuration of the switches, routers, and FortiGate before setting up routing and firewall features.
 
-### Switches:
+### Switches: 
+The switches provide Layer 2 connectivity between the end devices and routers. Basic hostname configuration is applied to each switch.
 
 #### 1. Switch1
 ```cisco
@@ -128,7 +130,7 @@ end
 ```
 
 ### Routers:
-
+The routers connect the LANs and DMZ to the FortiGate. They are also used for routing and to simulate some of the end devices in the lab.
 #### 1. Router1
 ```cisco
 enable
@@ -198,6 +200,8 @@ end
 ```
 
 ### FortiGate Firewall Setup
+The FortiGate is the main security device in the topology. Its management interface is configured first so I can access the GUI for the remaining configuration.
+
 #### a. Initial Configuration
 
 ```cisco
@@ -234,10 +238,12 @@ end
 --- 
 
 ## Routing Configuration
+Routing allows the different networks to communicate with each other and provides a path to the simulated Internet.
 <img width="820" height="428" alt="image" src="https://github.com/user-attachments/assets/7e74398c-d526-4aad-b495-5f2a3a6f797b" />
 
 
 ### a. OSPF (Single Area)
+OSPF is configured in a single Area 0 between the FortiGate and the internal and DMZ routers.
 #### 1. Router1
 ```cisco
 enable
@@ -310,6 +316,8 @@ config router ospf
 
 ### b. Default Route (Towards WAN)
 
+A default route is configured on the FortiGate to send Internet-bound traffic toward the simulated Internet router.
+
 #### FortiGate
 <img width="526" height="406" alt="image" src="https://github.com/user-attachments/assets/5238e52c-1acb-4495-baf2-ad2c43c59519" />
 
@@ -320,10 +328,16 @@ config router ospf
 --- 
 
 ## DHCP Configuration
+
+DHCP is configured on the FortiGate to automatically assign IP addresses to devices on the internal networks.
+
 <img width="716" height="671" alt="image" src="https://github.com/user-attachments/assets/b2038282-713d-4e19-a93a-d7a1952b72ff" />
 
 
 ### DHCP Server
+
+Separate DHCP scopes are configured for LAN 1 and LAN 2, including the IP range, gateway, and DNS settings.
+
 #### Fortigate
 ```cisco
     edit 2
@@ -352,6 +366,9 @@ config router ospf
 ```
 
 ### DHCP Relay Agents
+
+DHCP relay is configured on Router1 and Router2 to forward client DHCP requests to the FortiGate.
+
 #### Router1
 ```cisco
 enable
@@ -663,11 +680,14 @@ ssh -p 2223 -l admin 100.1.1.1
 
 ## Observations
 
+- Modern Firewalls can also act as routers in simple network setups, handling both routing and traffic filtering in one device.
+- Much like ACLs, firewall policies are evaluated in sequence, from top to bottom. If traffic doesn't match any of the rules, it is denied by the "implicit deny" rule.
+- Stateful firewalls like FortiGate make policy configuration simpler because they keep track of active connections and allow the return traffic automatically. Stateless firewalls treat each packet independently, so you generally need to explicitly allow traffic in both directions.
+  
 ---
 
 ## Conclusion
-
-
+This lab gave me hands-on experience with FortiGate firewall policies, routing, DHCP, NAT, DMZ segmentation, and SSH access. It also helped demonstrate how traffic can be controlled between internal, DMZ, and external networks.
 
 
 
