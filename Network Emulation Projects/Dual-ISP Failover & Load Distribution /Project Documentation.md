@@ -21,7 +21,7 @@ The two ISP connections provide redundancy so that Internet connectivity can con
 
 ---
 
-## Devices Used
+## Images Used
 | Device | image | Type |
 |:---:|:---:|:---:|
 | Switches L2/L3 | i86bi_linux_l2-adventerprisek9-ms.SSA.high_iron_20190423 | IOL |
