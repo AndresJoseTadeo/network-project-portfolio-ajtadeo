@@ -646,6 +646,8 @@ explicit firewall policies above.
 SSH connectivity was tested from both an internal network administrator and an external administrator to verify that the firewall policies and DNAT were working as expected. The internal administrator connected directly to the DMZ servers, while the external administrator accessed them through the configured public ports.
 
 ### 1. Internal-Network to Servers (SSH)
+
+#### a. SSH SRVR1
 ```cisco
 ssh -l admin 172.16.100.5
 ```
@@ -653,6 +655,7 @@ ssh -l admin 172.16.100.5
 
 &nbsp;
 
+#### b. SSH SRVR2
 ```cisco
 ssh -l admin 172.16.100.6
 ```
@@ -660,6 +663,7 @@ ssh -l admin 172.16.100.6
 
 &nbsp;
 
+#### c. SSH SRVR3
 ```cisco
 ssh -l admin 172.16.100.7
 ```
@@ -669,6 +673,7 @@ ssh -l admin 172.16.100.7
 
 ### 2. Outside to Servers (SSH)
 
+#### a. SSH SRVR1
 ```cisco
 ssh -p 2221 -l admin 100.1.1.1
 ```
@@ -677,6 +682,7 @@ ssh -p 2221 -l admin 100.1.1.1
 
 &nbsp;
 
+#### b. SSH SRVR2
 ```cisco
 ssh -p 2222 -l admin 100.1.1.1
 ```
@@ -685,6 +691,7 @@ ssh -p 2222 -l admin 100.1.1.1
 
 &nbsp;
 
+#### c. SSH SRVR3
 ```cisco
 ssh -p 2223 -l admin 100.1.1.1
 ```
