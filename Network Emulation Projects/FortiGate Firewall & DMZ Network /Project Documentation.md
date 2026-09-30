@@ -1,4 +1,6 @@
-# Basic Firewall Network Topology 
+# FortiGate Firewall & DMZ Network 
+
+Platform : PNETLab v8.2 
 
 ## Project Overview
 
