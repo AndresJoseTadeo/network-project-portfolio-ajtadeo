@@ -1,4 +1,6 @@
-# DUAL ISP FAILOVER WITH LOAD DISTRIBUTION
+# Dual-ISP Failover & Load Distribution 
+
+Platform: GNS3 v2.2.59
 
 ## Project Overview 
 
