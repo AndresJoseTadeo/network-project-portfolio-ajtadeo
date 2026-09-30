@@ -48,7 +48,7 @@ The projects explore different networking concepts, technologies, and lab enviro
 ## Project 3: Dual-ISP Failover
 **Platform:** GNS3
 
-[View Project on GitHub](https://github.com/AndresJoseTadeo/network-project-portfolio-ajtadeo/tree/main/Network%20Emulation%20Projects/GNS3_Dual_ISP_Failover)
+[View Project on GitHub](https://github.com/AndresJoseTadeo/network-project-portfolio-ajtadeo/tree/main/Network%20Emulation%20Projects/Dual-ISP%20Failover%20%26%20Load%20Distribution%20)
 
 <img width="2044" height="979" alt="image" src="https://github.com/user-attachments/assets/6bf0d643-862d-4714-b7f7-23120d68ebcd" />
 &nbsp;
@@ -64,7 +64,7 @@ The projects explore different networking concepts, technologies, and lab enviro
 ## Project 4: Basic Firewall Network Topology
 **Platform:** PNETLab
 
-[View Project on GitHub](https://github.com/AndresJoseTadeo/network-project-portfolio-ajtadeo/tree/main/Network%20Emulation%20Projects/PNETLab_Basic_Firewall_Network_Topology)
+[View Project on GitHub](https://github.com/AndresJoseTadeo/network-project-portfolio-ajtadeo/tree/main/Network%20Emulation%20Projects/FortiGate%20Firewall%20%26%20DMZ%20Network%20)
 
 <img width="1602" height="1080" alt="image" src="https://github.com/user-attachments/assets/f16af3ff-7534-4d5d-8be8-af80ed727cbd" />
 &nbsp;
